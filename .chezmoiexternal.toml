@@ -1,0 +1,4 @@
+["powerlevel10k"]
+    type = "git-repo"
+    url = "https://github.com/romkatv/powerlevel10k.git"
+    clone.args = ["--depth 1"]
