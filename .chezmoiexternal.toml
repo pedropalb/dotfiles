@@ -3,22 +3,26 @@
     url = "https://github.com/romkatv/powerlevel10k.git"
     exact = true
     clone.args = ["--depth 1"]
+    refreshPeriod = "168h"
 
 [".zsh/zsh-autocomplete"]
     type = "git-repo"
     url = "https://github.com/marlonrichert/zsh-autocomplete.git"
     exact = true
     clone.args = ["--depth 1"]
+    refreshPeriod = "168h"
 
 [".zsh/zsh-autosuggestions"]
     type = "git-repo"
     url = "https://github.com/zsh-users/zsh-autosuggestions.git"
     exact = true
     clone.args = ["--depth 1"]
+    refreshPeriod = "168h"
 
 [".zsh/zsh-syntax-highlighting"]
     type = "git-repo"
     url = "https://github.com/zsh-users/zsh-syntax-highlighting.git"
     exact = true
     clone.args = ["--depth 1"]
+    refreshPeriod = "168h"
 
