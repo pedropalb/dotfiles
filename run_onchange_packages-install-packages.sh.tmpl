@@ -5,7 +5,7 @@ pkg update
 pkg install {{ .packages.android.pkg | join " " }}
 {{ else if (and (eq .chezmoi.os "linux") (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu"))) }}
 sudo apt-get update 
-sudo apt-get install {{ .packages.linux.apt | join " " }}
+sudo apt-get install {{ .packages.debian.apt | join " " }}
 {{ else }}
 # other operating system
 {{ fail "No specification for this OS in .chezmoidata/packages.yaml" }}
