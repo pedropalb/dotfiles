@@ -1,9 +1,9 @@
 #!{{ lookPath "bash" }}
 
-{{ if eq .chezmoi.os "android" -}}
+{{ if eq .chezmoi.os "android" }}
 pkg update
 pkg install {{ .packages.android.pkg | join " " }}
-{{ else if (and (eq .chezmoi.os "linux") (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu"))) }}
+{{ else if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu")) }}
 sudo apt-get update 
 sudo apt-get install {{ .packages.debian.apt | join " " }}
 {{ if lookPath "fdfind" }}
