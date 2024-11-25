@@ -10,7 +10,7 @@ packages:
   debian:
     apt:
       - build-essential
-      - fd
+      - fd-find
       - fzf
       - ripgrep
 
