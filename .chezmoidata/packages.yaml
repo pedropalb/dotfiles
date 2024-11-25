@@ -1,0 +1,16 @@
+packages:
+  android:
+    pkg:
+      - atuin
+      - build-essential
+      - fd
+      - fzf
+      - lua-language-server
+      - ripgrep
+  linux:
+    apt:
+      - build-essential
+      - fd
+      - fzf
+      - ripgrep
+

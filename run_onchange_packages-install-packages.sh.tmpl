@@ -1,0 +1,12 @@
+#!{{ lookPath "bash" }}
+
+{{ if eq .chezmoi.os "android" -}}
+pkg update
+pkg install {{ .packages.android.pkg | join " " }}
+{{ else if eq .chezmoi.os "linux" }}
+sudo apt-get update 
+sudo apt-get install {{ .packages.linux.apt | join " " }}
+{{ else }}
+# other operating system
+{{ fail "No specification for this OS in .chezmoidata/packages.yaml" }}
+{{ end }}
