@@ -7,7 +7,7 @@ packages:
       - fzf
       - lua-language-server
       - ripgrep
-  linux:
+  debian:
     apt:
       - build-essential
       - fd
