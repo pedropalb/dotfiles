@@ -7,10 +7,12 @@ packages:
       - fzf
       - lua-language-server
       - ripgrep
+      - zsh
   debian:
     apt:
       - build-essential
       - fd-find
       - fzf
       - ripgrep
+      - zsh
 
