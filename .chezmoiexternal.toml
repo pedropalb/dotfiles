@@ -26,3 +26,16 @@
     clone.args = ["--depth", "1"]
     refreshPeriod = "168h"
 
+[".fzf"]
+type = "archive"
+    url = "https://github.com/junegunn/fzf/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+{{ $fzfVersion := "0.56.3" -}}
+[".fzf/bin/fzf"]
+    type = "archive-file"
+    url = "https://github.com/junegunn/fzf/releases/download/v{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-linux_{{ .chezmoi.arch }}.tar.gz"
+    path = "fzf"
+

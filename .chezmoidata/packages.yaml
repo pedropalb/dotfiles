@@ -4,7 +4,6 @@ packages:
       - atuin
       - build-essential
       - fd
-      - fzf
       - lua-language-server
       - ripgrep
       - zsh
@@ -12,7 +11,6 @@ packages:
     apt:
       - build-essential
       - fd-find
-      - fzf
       - ripgrep
       - zsh
 

@@ -33,8 +33,7 @@ alias ll="ls --long --icons=always --git --no-permissions --no-user --total-size
 
 setopt HIST_IGNORE_DUPS
 
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(atuin init zsh --disable-up-arrow)"
 
