@@ -6,11 +6,10 @@ pkg install {{ .packages.android.pkg | join " " }}
 {{ else if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu")) }}
 sudo apt-get update 
 sudo apt-get install {{ .packages.debian.apt | join " " }}
-cargo install atuin
 {{ if lookPath "rustup" }}
 rustup default stable
 cargo install {{ .packages.debian.cargo | join " " }}
-+{{ end }}
+{{ end }}
 {{ else }}
 # other operating system
 {{ fail "No specification for this OS in .chezmoidata/packages.yaml" }}
