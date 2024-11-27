@@ -1,5 +1,9 @@
 export EDITOR=nvim
 
+{{ if lookPath "cargo" }}
+export PATH="${PATH}:~/.cargo/bin"
+{{ end }}
+
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
