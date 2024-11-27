@@ -12,7 +12,6 @@ packages:
   debian:
     apt:
       - build-essential
-      - fd-find
       - ripgrep
       - zsh
       - zoxide
@@ -20,4 +19,5 @@ packages:
       - rustup
     cargo:
       - atuin
+      - fd-find
 

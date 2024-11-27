@@ -11,9 +11,6 @@ cargo install atuin
 rustup default stable
 cargo install {{ .packages.debian.cargo | join " " }}
 +{{ end }}
-{{ if lookPath "fdfind" }}
-ln -s $(which fdfind) ~/.local/bin/fd
-{{ end }}
 {{ else }}
 # other operating system
 {{ fail "No specification for this OS in .chezmoidata/packages.yaml" }}
