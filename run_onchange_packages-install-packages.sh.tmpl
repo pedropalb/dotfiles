@@ -7,6 +7,10 @@ pkg install {{ .packages.android.pkg | join " " }}
 sudo apt-get update 
 sudo apt-get install {{ .packages.debian.apt | join " " }}
 cargo install atuin
+{{ if lookPath "rustup" }}
+rustup default stable
+cargo install {{ .packages.debian.cargo | join " " }}
++{{ end }}
 {{ if lookPath "fdfind" }}
 ln -s $(which fdfind) ~/.local/bin/fd
 {{ end }}
