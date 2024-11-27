@@ -6,6 +6,7 @@ pkg install {{ .packages.android.pkg | join " " }}
 {{ else if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu")) }}
 sudo apt-get update 
 sudo apt-get install {{ .packages.debian.apt | join " " }}
+cargo install atuin
 {{ if lookPath "fdfind" }}
 ln -s $(which fdfind) ~/.local/bin/fd
 {{ end }}
