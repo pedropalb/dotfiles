@@ -8,6 +8,6 @@ path+=('/data/data/com.termux/files/usr/bin/lua-language-server')
 {{ end -}}
 
 [ ! -d $XDG_RUNTIME_DIR ] && mkdir -p $XDG_RUNTIME_DIR
-path+=($XDG_RUNTIME_DIR)
+path+=("$XDG_RUNTIME_DIR")
 
 export PATH
