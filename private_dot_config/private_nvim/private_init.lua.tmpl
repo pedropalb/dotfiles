@@ -663,7 +663,9 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
-      -- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      {{- if not (eq .chezmoi.os "android") -}}
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      {{- end -}}
 
       require('mason-lspconfig').setup {
         handlers = {
