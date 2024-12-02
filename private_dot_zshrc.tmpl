@@ -1,13 +1,13 @@
 export EDITOR=nvim
 
 export PATH="${PATH}:${HOME}/.local/bin"
-{{ if lookPath "cargo" }}
+{{- if lookPath "cargo" }}
 export PATH="${PATH}:${HOME}/.cargo/bin"
-{{ end }}
+{{- end }}
 
-{{ if not (eq .chezmoi.os "android") }}
+{{- if not (eq .chezmoi.os "android") }}
 [ -f $HOME/.ghcup/env ] && source $HOME/.ghcup/env
-{{ end }}
+{{- end }}
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
