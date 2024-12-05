@@ -657,7 +657,6 @@ require('lazy').setup({
       --  You can press `g?` for help in this menu.
       require('mason').setup()
 
-      {{ if not (eq .chezmoi.os "android") }}
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
@@ -666,7 +665,6 @@ require('lazy').setup({
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-      {{ end }}
 
       require('mason-lspconfig').setup {
         handlers = {
