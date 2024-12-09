@@ -48,5 +48,7 @@ eval "$(atuin init zsh --disable-up-arrow)"
 
 eval "$(zoxide init zsh)"
 
+[ -f  ~/.local/bin/mise] && eval "$(~/.local/bin/mise activate zsh)"
+
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
