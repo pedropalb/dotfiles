@@ -318,7 +318,7 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
+        -- { '<leader>d', group = '[D]ebug' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
@@ -534,7 +534,7 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>cs', require('telescope.builtin').lsp_document_symbols, '[C]ode [S]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -650,24 +650,36 @@ require('lazy').setup({
         ruff = {
           init_options = {
             settings = {
+              fixAll = true,
+              configurationPreference = 'filesystemFirst',
               logLevel = 'debug',
+              lineLength = 88,
+              lint = {
+                select = { 'E', 'F' },
+              },
+            },
+          },
+          capabilities = {
+            general = {
+              positionEncodings = { 'utf-16' },
             },
           },
         },
-        -- pyright = {
-        --   settings = {
-        --     pyright = {
-        --       -- Using Ruff's import organizer
-        --       disableOrganizeImports = true,
-        --     },
-        --     python = {
-        --       analysis = {
-        --         -- Ignore all files for analysis to exclusively use Ruff for linting
-        --         ignore = { '*' },
-        --       },
-        --     },
-        --   },
-        -- },
+        pyright = {
+          settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                -- ignore = { '*' },
+                -- typeCheckingMode = 'strict'
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -872,7 +884,7 @@ require('lazy').setup({
         -- ...
       }
 
-      vim.cmd 'colorscheme github_dark'
+      vim.cmd 'colorscheme github_dark_default'
     end,
   },
 
@@ -969,7 +981,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',

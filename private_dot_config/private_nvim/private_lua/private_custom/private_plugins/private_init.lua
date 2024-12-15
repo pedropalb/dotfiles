@@ -10,7 +10,7 @@ return {
     keys = function()
       local ht = require 'haskell-tools'
       local bufnr = vim.api.nvim_get_current_buf()
-      local opts = { noremap = true, silent = true, buffer = bufnr }
+      local opts = { ft = 'haskell', noremap = true, silent = true, buffer = bufnr }
 
       return {
         {
@@ -26,6 +26,7 @@ return {
   },
   {
     'andre-kotake/nvim-chezmoi',
+    lazy = true,
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope.nvim' },
@@ -36,5 +37,26 @@ return {
     config = function(_, opts)
       require('nvim-chezmoi').setup(opts)
     end,
+  },
+  {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'mfussenegger/nvim-dap',
+      'mfussenegger/nvim-dap-python', --optional
+      {
+        'nvim-telescope/telescope.nvim',
+        branch = '0.1.x',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+      },
+    },
+    lazy = true,
+    branch = 'regexp', -- This is the regexp branch, use this for the new version
+    config = function()
+      require('venv-selector').setup()
+    end,
+    keys = {
+      { ',v', '<cmd>VenvSelect<cr>' },
+    },
   },
 }
