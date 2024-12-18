@@ -26,7 +26,7 @@ return {
   },
   {
     'andre-kotake/nvim-chezmoi',
-    lazy = true,
+    lazy = false,
     dependencies = {
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope.nvim' },

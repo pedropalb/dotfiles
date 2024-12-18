@@ -653,10 +653,7 @@ require('lazy').setup({
               fixAll = true,
               configurationPreference = 'filesystemFirst',
               logLevel = 'debug',
-              lineLength = 88,
-              lint = {
-                select = { 'E', 'F' },
-              },
+              showFixes = true,
             },
           },
           capabilities = {
@@ -778,12 +775,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -868,7 +865,8 @@ require('lazy').setup({
           },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
-          { name = 'path' },
+          { name = 'async_path' },
+          { name = 'nvim_lsp_signature_help' },
         },
       }
     end,
