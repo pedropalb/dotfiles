@@ -55,3 +55,5 @@ if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
 
+setopt extended_glob
+
