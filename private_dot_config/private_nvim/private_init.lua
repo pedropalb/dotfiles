@@ -159,6 +159,11 @@ vim.opt.scrolloff = 10
 
 -- [[My Options ]]
 vim.opt.wrap = true
+vim.filetype.add {
+  filename = {
+    ['uv.lock'] = 'toml',
+  },
+}
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`

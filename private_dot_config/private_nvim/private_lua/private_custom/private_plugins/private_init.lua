@@ -59,4 +59,29 @@ return {
       { ',v', '<cmd>VenvSelect<cr>' },
     },
   },
+  {
+    'ThePrimeagen/refactoring.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    lazy = false,
+    config = function()
+      -- require('telescope').load_extension 'refactoring'
+      require('refactoring').setup()
+    end,
+    -- keys = function()
+    --   local telescope = require 'telescope'
+    --
+    --   return {
+    --     {
+    --       '<leader>rr',
+    --       function()
+    --         telescope.extensions.refactoring.refactors()
+    --       end,
+    --       desc = 'Refactorings',
+    --     },
+    --   }
+    -- end,
+  },
 }
