@@ -20,15 +20,15 @@ HISTSIZE=10000
 SAVEHIST=1000
 setopt INC_APPEND_HISTORY_TIME
 
-source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-bindkey              '^I' menu-select
-bindkey "$terminfo[kcbt]" menu-select
-bindkey -M menuselect              '^I'         menu-complete
-bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
-bindkey '^[[A' .up-line-or-search
-bindkey '^[OA' .up-line-or-search
-bindkey '^[[B' .down-line-or-search
-bindkey '^[OB' .down-line-or-search
+# source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# bindkey              '^I' menu-select
+# bindkey "$terminfo[kcbt]" menu-select
+# bindkey -M menuselect              '^I'         menu-complete
+# bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
+# bindkey '^[[A' .up-line-or-search
+# bindkey '^[OA' .up-line-or-search
+# bindkey '^[[B' .down-line-or-search
+# bindkey '^[OB' .down-line-or-search
 
 alias ls="eza --all"
 alias ll="ls --long --icons=always --git --no-permissions --no-user --total-size"
@@ -51,9 +51,11 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+setopt extended_glob
+# export LD_PRELOAD=/home/pedro/workspace/skip_getifaddrs/skip_getifaddrs.so
+
 if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
 
-setopt extended_glob
 
