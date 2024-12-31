@@ -31,6 +31,9 @@ return {
       { 'nvim-lua/plenary.nvim' },
       { 'nvim-telescope/telescope.nvim' },
     },
+    keys = {
+      { '<leader>sc', '<cmd>ChezmoiManaged<CR>', desc = '[S]earch [C]hezmoi managed files' },
+    },
     opts = {
       -- Your custom config
     },
