@@ -676,7 +676,7 @@ require('lazy').setup({
             python = {
               analysis = {
                 -- Ignore all files for analysis to exclusively use Ruff for linting
-                -- ignore = { '*' },
+                ignore = { '*' },
                 -- typeCheckingMode = 'strict'
               },
             },
@@ -938,6 +938,9 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    },
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -966,6 +969,29 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'python', 'ruby' },
       },
       indent = { enable = true, disable = { 'python', 'ruby' } },
+      textobjects = {
+        select = {
+          enable = true,
+
+          -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true,
+
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+          },
+        },
+        move = {
+          enable = true,
+          goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer', [']a'] = '@parameter.inner' },
+          goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer', [']A'] = '@parameter.inner' },
+          goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer', ['[a'] = '@parameter.inner' },
+          goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer', ['[A'] = '@parameter.inner' },
+        },
+      },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
