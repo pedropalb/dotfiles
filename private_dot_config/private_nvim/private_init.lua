@@ -983,6 +983,8 @@ require('lazy').setup({
             ['if'] = '@function.inner',
             ['ac'] = '@class.outer',
             ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+            ['ap'] = { query = '@parameter.outer', desc = 'Select outer part of a parameter region' },
+            ['ao'] = { query = '@comments.outer', desc = 'Select outer part of a comment region' },
           },
         },
         move = {

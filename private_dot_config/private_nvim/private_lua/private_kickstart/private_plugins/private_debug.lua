@@ -85,6 +85,13 @@ return {
         end,
         desc = 'Debug: See last session result.',
       },
+      {
+        '<F10>',
+        function()
+          require('dapui').float_element()
+        end,
+        desc = 'Debug: Select float window.',
+      },
     },
     config = function()
       local dap = require 'dap'
