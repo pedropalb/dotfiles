@@ -32,10 +32,13 @@ return {
       { 'nvim-telescope/telescope.nvim' },
     },
     keys = {
-      { '<leader>sc', '<cmd>ChezmoiManaged<CR>', desc = '[S]earch [C]hezmoi managed files' },
+      { '<leader>sc', ':ChezmoiManaged<CR>', desc = '[S]earch [C]hezmoi managed files' },
     },
     opts = {
-      -- Your custom config
+      edit = {
+        -- Automatically apply file on save. Can be one of: "auto", "confirm" or "never"
+        apply_on_save = 'never',
+      },
     },
     config = function(_, opts)
       require('nvim-chezmoi').setup(opts)
@@ -91,5 +94,9 @@ return {
     --     },
     --   }
     -- end,
+  },
+  {
+    'Pocco81/auto-save.nvim',
+    ft = { 'python' },
   },
 }
