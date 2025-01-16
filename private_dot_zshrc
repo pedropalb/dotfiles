@@ -15,6 +15,10 @@ export PATH="${PATH}:${HOME}/.local/bin"
 export PATH="${PATH}:${HOME}/.cargo/bin"
 [ -f $HOME/.ghcup/env ] && source $HOME/.ghcup/env
 
+if [[ -d $HOME/.nvim ]]; then
+    export PATH="$PATH:$HOME/.nvim/bin"
+fi
+
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
