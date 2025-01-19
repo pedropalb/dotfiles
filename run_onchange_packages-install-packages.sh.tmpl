@@ -1,16 +1,10 @@
-#!{{ lookPath "bash" }}
+#!/usr/bin/env bash
 
-{{ if eq .chezmoi.os "android" }}
-pkg update
-pkg install {{ .packages.android.pkg | join " " }}
-{{ else if (or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu")) }}
 sudo apt-get update 
 sudo apt-get install -y {{ .packages.debian.apt | join " " }}
+
 {{ if lookPath "rustup" }}
 rustup default stable
 cargo install {{ .packages.debian.cargo | join " " }}
 {{ end }}
-{{ else }}
-# other operating system
-{{ fail "No specification for this OS in .chezmoidata/packages.yaml" }}
-{{ end }}
+

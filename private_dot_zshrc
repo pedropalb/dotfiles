@@ -37,6 +37,7 @@ setopt INC_APPEND_HISTORY_TIME
 alias ls="eza --all"
 alias ll="ls --long --icons=always --git --no-permissions --no-user --total-size"
 alias profzsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
+alias shebang='echo "#!/usr/bin/env bash"'
 
 setopt HIST_IGNORE_DUPS
 
