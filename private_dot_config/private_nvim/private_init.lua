@@ -88,7 +88,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.maplocalleader = ','
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -796,6 +796,8 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+
+      'PaterJason/cmp-conjure',
     },
     config = function()
       -- See `:help cmp`
@@ -873,6 +875,7 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'async_path' },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'conjure' },
         },
       }
     end,
@@ -959,6 +962,7 @@ require('lazy').setup({
         'query',
         'vim',
         'vimdoc',
+        'clojure',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,

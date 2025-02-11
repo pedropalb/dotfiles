@@ -1,2 +1,4 @@
 [tools]
+java = "temurin-21"
 node = "23.6.0"
+uv = "0.5.21"

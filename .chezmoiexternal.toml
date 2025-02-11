@@ -39,13 +39,13 @@
     url = "https://github.com/junegunn/fzf/releases/download/v{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-linux_{{ .chezmoi.arch }}.tar.gz"
     path = "fzf"
 
-[".nvim"]
-    type = "archive"
-    url = "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-    exact = true
-    stripComponents = 1
-    refreshPeriod = "168h"
-    executable = true
+# [".nvim"]
+#     type = "archive"
+#     url = "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+#     exact = true
+#     stripComponents = 1
+#     refreshPeriod = "168h"
+#     executable = true
 
 [".local/bin/mise"]
     type = "file"
