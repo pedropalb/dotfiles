@@ -4,6 +4,7 @@
 return {
   {
     'clojure-vim/vim-jack-in',
+    ft = { 'clojure' },
     dependencies = {
       'tpope/vim-dispatch',
       'radenling/vim-dispatch-neovim',
