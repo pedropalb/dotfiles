@@ -132,10 +132,6 @@ return {
                 id = 'scopes',
                 size = 0.7,
               },
-              {
-                id = 'watches',
-                size = 0.3,
-              },
             },
             position = 'bottom',
             size = 10,

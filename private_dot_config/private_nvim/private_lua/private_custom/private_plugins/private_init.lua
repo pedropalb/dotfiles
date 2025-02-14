@@ -3,6 +3,10 @@
 -- See the kickstart.nvim README for more information
 return {
   {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+  },
+  {
     'clojure-vim/vim-jack-in',
     ft = { 'clojure' },
     dependencies = {
