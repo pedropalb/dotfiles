@@ -1,4 +1,5 @@
 [tools]
 java = "temurin-21"
+neovim = "latest"
 node = "23.6.0"
-uv = "0.5.21"
+uv = "latest"
