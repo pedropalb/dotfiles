@@ -11,7 +11,6 @@ in
   home.packages = [
     pkgs.ripgrep
     pkgs.fzf
-    # pkgs.neovim
   ];
 
   programs.zsh = {
@@ -21,6 +20,7 @@ in
     autosuggestion.enable = true;
     enableCompletion = true;
     history.append = true;
+    syntaxHighlighting.enable = true;
     
     shellAliases = {
       ll = "ls -l";
