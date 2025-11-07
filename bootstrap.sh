@@ -1,76 +1,62 @@
 #!/bin/bash
-#
-# A Flake-based bootstrap script for a new Ubuntu machine
-#
 
-set -e # Exit immediately if a command exits with a non-zero status
+set -e
 
-# --- 1. USER CONFIGURATION ---
-#
-# !! IMPORTANT !!
-# Set these variables to match your setup.
+# Colors
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
-# Your GitHub repo URL
-CONFIG_REPO="https://github.com/pedropalb/dotfiles.git"
+log() { echo -e "${BLUE}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
 
-# The username on the new machine.
-# This MUST match the key you use in your 'flake.nix'
-# (e.g., homeConfigurations."johndoe" = ... )
-YOUR_USERNAME="pedro"
-
-# --- 2. SCRIPT CONFIG (No need to edit) ---
-CONFIG_PATH="$HOME/.config/home-manager"
-
-# --- 3. INSTALL BASE DEPENDENCIES ---
-echo "--- Ensuring git and curl are installed ---"
-if ! command -v git &> /dev/null || ! command -v curl &> /dev/null; then
-  sudo apt-get update
-  sudo apt-get install -y git curl
-else
-  echo "git and curl are already installed."
-fi
-
-# --- 4. INSTALL NIX ---
-echo "--- Installing Nix Package Manager ---"
+log "Checking for Nix installation..."
 if ! command -v nix &> /dev/null; then
-  sh <(curl -L https://nixos.org/nix/install) --daemon
-  
-  # Source the nix profile to make 'nix' available to this script
-  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    log "Nix not found. Installing via Determinate Systems installer..."
+    
+    # This installer automatically:
+    # - Enables Flakes
+    # - Sets up the Nix Daemon
+    # - Configures build users
+    # - Works on Systemd (Arch/Ubuntu/Fedora) and Launchd (macOS)
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    
+    # Source the nix configuration immediately for this script session
+    if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
+        . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+    fi
 else
-  echo "Nix is already installed."
+    log "Nix is already installed."
+    
+    # Verify Flakes are enabled (Determinate installer does this by default, 
+    # but vanilla installs might not have it).
+    if ! nix flake --help &>/dev/null; then
+        warn "Flakes do not appear to be enabled. Please enable 'flakes' and 'nix-command' in /etc/nix/nix.conf"
+        exit 1
+    fi
 fi
 
-# --- 5. ENABLE NIX FLAKES ---
-echo "--- Enabling Nix Flakes ---"
-NIX_CONFIG_FILE="/etc/nix/nix.conf"
-FLAKE_CONFIG_LINES="experimental-features = nix-command flakes\naccept-flake-config = true"
+# ---------------------------------------------------------------------------------------------------------------
+CONFIG_REPO="https://github.com/pedropalb/dotfiles.git"
+USERNAME="pedro"  # This MUST match the key you use in your 'flake.nix'
+CONFIG_DIR="$HOME/.config/home-manager"
 
-if ! grep -q "experimental-features.*flakes" "$NIX_CONFIG_FILE"; then
-  echo "Adding Flake configuration to $NIX_CONFIG_FILE"
-  echo -e "$FLAKE_CONFIG_LINES" | sudo tee -a "$NIX_CONFIG_FILE"
-  
-  # Restart the daemon to apply changes
-  sudo systemctl restart nix-daemon.service
-else
-  echo "Nix Flakes are already enabled."
-fi
-
-# --- 6. CLONE YOUR CONFIG REPO ---
 echo "--- Cloning configuration repo ---"
-if [ -d "$CONFIG_PATH" ]; then
-  echo "Config directory $CONFIG_PATH already exists. Backing up."
-  mv "$CONFIG_PATH" "$CONFIG_PATH.bak-$(date +%F-%T)"
+if [ -d "$CONFIG_DIR" ]; then
+  echo "Config directory $CONFIG_DIR already exists. Backing up."
+  mv "$CONFIG_DIR" "$CONFIG_DIR.bak-$(date +%F-%T)"
+else
+  mkdir -p $CONFIG_DIR
 fi
-git clone "$CONFIG_REPO" "$CONFIG_PATH"
-cd "$CONFIG_PATH" # Enter the directory
+git clone "$CONFIG_REPO" "$CONFIG_DIR"
 
-# --- 7. APPLY THE CONFIGURATION ---
 echo "--- Applying Home Manager configuration ---"
 # We run 'nix run' to use the 'home-manager' command from the Flake
 # registry. This command will then read our local flake.nix,
 # build our configuration, and activate it.
-nix run github:nix-community/home-manager -- switch --flake .#$YOUR_USERNAME
+nix run github:nix-community/home-manager -- switch --flake "${CONFIG_DIR}#${USERNAME}"
 
 echo "--- All done! Close and reopen your terminal. ---"
 
