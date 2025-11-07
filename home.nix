@@ -29,6 +29,8 @@ in
     enableCompletion = true;
     history.append = true;
     syntaxHighlighting.enable = true;
+
+    programs.zsh.promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
     
     shellAliases = {
       ll = "ls -l";
