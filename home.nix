@@ -2,13 +2,13 @@
 let
   homeDirectory = "/home/${username}";
   configDirectory = "${homeDirectory}/.config";
-  p10k = {
-    name = "powerlevel10k/powerlevel10k";
-    src = builtins.fetchGit {
-      url = "https://github.com/romkatv/powerlevel10k.git"; 
-      rev = "36f3045d69d1ba402db09d09eb12b42eebe0fa3b";
-    };
-  };
+#   p10k = {
+#     name = "powerlevel10k/powerlevel10k";
+#     src = builtins.fetchGit {
+#       url = "https://github.com/romkatv/powerlevel10k.git"; 
+#       rev = "36f3045d69d1ba402db09d09eb12b42eebe0fa3b";
+#     };
+#   };
 in
 {
   home.stateVersion = "25.11"; 
@@ -18,6 +18,7 @@ in
   home.packages = [
     pkgs.ripgrep
     pkgs.fzf
+    pkgs.powerlevel10k-zsh
   ];
 
   programs.zsh = {
@@ -37,7 +38,7 @@ in
 
     oh-my-zsh = {
       enable = true;
-      theme = p10k; # "powerlevel10k/powerlevel10k";
+      theme = "powerlevel10k/powerlevel10k";
       plugins = [
         "git"
 	"sudo"
