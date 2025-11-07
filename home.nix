@@ -4,7 +4,10 @@ let
   configDirectory = "${homeDirectory}/.config";
   p10k = {
     name = "powerlevel10k/powerlevel10k";
-    src = builtins.fetchGit "https://github.com/romkatv/powerlevel10k.git"; 
+    src = builtins.fetchGit {
+      url = "https://github.com/romkatv/powerlevel10k.git"; 
+      rev = "36f3045d69d1ba402db09d09eb12b42eebe0fa3b";
+    };
   };
 in
 {
