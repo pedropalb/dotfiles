@@ -2,6 +2,10 @@
 let
   homeDirectory = "/home/${username}";
   configDirectory = "${homeDirectory}/.config";
+  p10k = {
+    name = "powerlevel10k/powerlevel10k";
+    src = builtins.fetchGit "https://github.com/romkatv/powerlevel10k.git"; 
+  };
 in
 {
   home.stateVersion = "25.11"; 
@@ -30,7 +34,7 @@ in
 
     oh-my-zsh = {
       enable = true;
-      theme = "powerlevel10k/powerlevel10k";
+      theme = p10k; # "powerlevel10k/powerlevel10k";
       plugins = [
         "git"
 	"sudo"
