@@ -11,7 +11,7 @@ in
   home.packages = [
     pkgs.ripgrep
     pkgs.fzf
-    pkgs.neovim
+    # pkgs.neovim
   ];
 
   programs.zsh = {
@@ -19,12 +19,27 @@ in
     dotDir = "${configDirectory}/zsh";
     
     autosuggestion.enable = true;
+    enableCompletion = true;
+    history.append = true;
     
     shellAliases = {
       ll = "ls -l";
       la = "ls -la";
       l = "ls -lah";
     };
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "git"
+	"sudo"
+      ];
+    };
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
   };
 
   programs.home-manager.enable = true;
