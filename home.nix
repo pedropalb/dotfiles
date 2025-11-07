@@ -18,7 +18,7 @@ in
   home.packages = [
     pkgs.ripgrep
     pkgs.fzf
-    pkgs.zsh-powerlevel10k
+    #pkgs.zsh-powerlevel10k
   ];
 
   programs.zsh = {
