@@ -13,7 +13,10 @@ in
     paru
 
     ripgrep
+    fd
     fzf
+    atuin
+
     meslo-lgs-nf
 
     rustup
@@ -77,6 +80,13 @@ in
     enable = true;
     enableZshIntegration = true;
   };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+
 
   fonts.fontconfig = {
     enable = true;
