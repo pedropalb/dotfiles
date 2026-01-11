@@ -9,10 +9,13 @@ in
   home.username = username;
   home.homeDirectory = homeDirectory;
   
-  home.packages = [
-    pkgs.ripgrep
-    pkgs.fzf
-    pkgs.meslo-lgs-nf
+  home.packages = with pkgs; [
+    ripgrep
+    fzf
+    meslo-lgs-nf
+
+    rustup
+    gcc
   ];
   
   home.file."${zshDotDir}/.p10k.zsh".source = ./.p10k.zsh;
