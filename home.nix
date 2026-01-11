@@ -3,6 +3,7 @@ let
   homeDirectory = "/home/${username}";
   configDirectory = "${homeDirectory}/.config";
   zshDotDir = "${configDirectory}/zsh";
+  dotDirectory = "${homeDirectory}/workspace/dotfiles";
 in
 {
   home.stateVersion = "25.11"; 
@@ -23,8 +24,8 @@ in
     gcc
   ];
   
-  home.file."${zshDotDir}/.p10k.zsh".source = ./.p10k.zsh;
-  home.file."${configDirectory}/wezterm/wezterm.lua".source = ./wezterm.lua;
+  xdg.configFile."zsh/.p10k.zsh".source = ./.p10k.zsh;
+  xdg.configFile."wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotDirectory}/wezterm.lua";
 
   programs.zsh = {
     enable = true;
