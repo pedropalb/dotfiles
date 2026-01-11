@@ -10,6 +10,8 @@ in
   home.homeDirectory = homeDirectory;
   
   home.packages = with pkgs; [
+    paru
+
     ripgrep
     fzf
     meslo-lgs-nf
