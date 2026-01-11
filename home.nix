@@ -86,7 +86,16 @@ in
     enableZshIntegration = true;
   };
 
-
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+    flags = ["--disable-up-arrow"];
+    settings = {
+      auto_sync = false;
+      style = "full";
+      enter_accept = false;
+    };
+  };
 
   fonts.fontconfig = {
     enable = true;
