@@ -4,6 +4,7 @@ let
   configDirectory = "${homeDirectory}/.config";
   zshDotDir = "${configDirectory}/zsh";
   dotDirectory = "${homeDirectory}/workspace/dotfiles";
+  dotConfigDirectory = "${dotDirectory}/config";
 in
 {
   home.stateVersion = "25.11"; 
@@ -25,7 +26,8 @@ in
   ];
   
   xdg.configFile."zsh/.p10k.zsh".source = ./.p10k.zsh;
-  xdg.configFile."wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotDirectory}/wezterm.lua";
+  xdg.configFile."wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/wezterm.lua";
+
 
   programs.zsh = {
     enable = true;
