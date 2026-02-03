@@ -23,10 +23,12 @@ in
 
     rustup
     gcc
+
   ];
   
   xdg.configFile."zsh/.p10k.zsh".source = ./.p10k.zsh;
   xdg.configFile."wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/wezterm.lua";
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/nvim";
 
 
   programs.zsh = {
