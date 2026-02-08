@@ -19,7 +19,7 @@ in
     fzf
     atuin
 
-    meslo-lgs-nf
+    nerd-fonts.meslo-lg
 
     rustup
     gcc
