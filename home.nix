@@ -25,12 +25,31 @@ in
     gcc
 
     uv
+
+    nodejs
   ];
   
   xdg.configFile."zsh/.p10k.zsh".source = ./.p10k.zsh;
   xdg.configFile."wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/wezterm.lua";
   xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/nvim";
 
+  xdg.configFile."npm/npmrc".text = ''
+    prefix=${config.home.homeDirectory}/.local
+    cache=${config.xdg.cacheHome}/npm
+    init-module=${config.xdg.configHome}/npm/config/npm-init.js
+  '';
+
+  home.sessionVariables = {
+    NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
+    
+    # Optional: Ensure the cache folder is also clean (XDG compliant)
+    # This prevents npm from creating ~/.npm
+    NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
+  };
+
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.local/bin"
+  ];
 
   programs.zsh = {
     enable = true;
