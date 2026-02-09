@@ -1,15 +1,14 @@
 { config, pkgs, username, lib, ... }:
+
 let
-  homeDirectory = "/home/${username}";
-  configDirectory = "${homeDirectory}/.config";
-  zshDotDir = "${configDirectory}/zsh";
-  dotDirectory = "${homeDirectory}/workspace/dotfiles";
-  dotConfigDirectory = "${dotDirectory}/config";
+  dotfiles = "${config.home.homeDirectory}/workspace/dotfiles";
+  repoConfig = "${dotfiles}/config";
+  zshConfigDir = "${config.xdg.configHome}/zsh";
 in
 {
   home.stateVersion = "25.11"; 
   home.username = username;
-  home.homeDirectory = homeDirectory;
+  home.homeDirectory = "/home/${username}";
   
   home.packages = with pkgs; [
     paru
@@ -29,21 +28,20 @@ in
     nodejs
   ];
   
-  xdg.configFile."zsh/.p10k.zsh".source = ./.p10k.zsh;
-  xdg.configFile."wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/wezterm.lua";
-  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotConfigDirectory}/nvim";
+  xdg.configFile = {
+    "zsh/.p10k.zsh".source = ./.p10k.zsh;
+    "wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${repoConfig}/wezterm/wezterm.lua";
+    "nvim".source = config.lib.file.mkOutOfStoreSymlink "${repoConfig}/nvim";
 
-  xdg.configFile."npm/npmrc".text = ''
-    prefix=${config.home.homeDirectory}/.local
-    cache=${config.xdg.cacheHome}/npm
-    init-module=${config.xdg.configHome}/npm/config/npm-init.js
-  '';
+    "npm/npmrc".text = ''
+      prefix=${config.home.homeDirectory}/.local
+      cache=${config.xdg.cacheHome}/npm
+      init-module=${config.xdg.configHome}/npm/config/npm-init.js
+    '';
+  };
 
   home.sessionVariables = {
     NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
-    
-    # Optional: Ensure the cache folder is also clean (XDG compliant)
-    # This prevents npm from creating ~/.npm
     NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
   };
 
@@ -53,7 +51,7 @@ in
 
   programs.zsh = {
     enable = true;
-    dotDir = zshDotDir;
+    dotDir = zshConfigDir;
     
     autosuggestion.enable = true;
     enableCompletion = true;
@@ -70,7 +68,7 @@ in
       '')
       
       (lib.mkAfter ''
-        [[ ! -f ${zshDotDir}/.p10k.zsh ]] || source ${zshDotDir}/.p10k.zsh
+        [[ ! -f ${zshConfigDir}/.p10k.zsh ]] || source ${zshConfigDir}/.p10k.zsh
       '')
     ];
 
