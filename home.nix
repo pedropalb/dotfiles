@@ -1,4 +1,4 @@
-{ config, pkgs, username, lib, ... }:
+{ config, pkgs, username, lib, fenix, ... }:
 
 let
   dotfiles = "${config.home.homeDirectory}/workspace/dotfiles";
@@ -20,12 +20,19 @@ in
 
     nerd-fonts.meslo-lg
 
-    rustup
     gcc
 
     uv
 
     nodejs
+
+    (fenix.packages.${pkgs.system}.stable.withComponents [
+      "cargo"
+      "rustc"
+      "rust-src"
+      "clippy"
+      "rustfmt"
+    ])
   ];
   
   xdg.configFile = {
