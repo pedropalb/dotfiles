@@ -17,6 +17,7 @@ in
     fd
     fzf
     atuin
+    bat
 
     nerd-fonts.meslo-lg
 
