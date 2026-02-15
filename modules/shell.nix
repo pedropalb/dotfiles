@@ -1,11 +1,11 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, dotfilesDir, configDirectory, ... }:
 
 let
-  zshConfigDir = "${config.xdg.configHome}/zsh";
+  zshConfigDir = "${configDirectory}/zsh";
 in
 {
   xdg.configFile = {
-    "zsh/.p10k.zsh".source = ../.p10k.zsh;
+    "zsh/.p10k.zsh".source = "${dotfilesDir}/.p10k.zsh";
   };
 
   programs.zsh = {

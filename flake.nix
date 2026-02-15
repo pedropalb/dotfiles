@@ -15,12 +15,17 @@
       systems = [ "x86_64-linux" ];
       flake = {
         homeConfigurations = {
-          "pedro" = inputs.home-manager.lib.homeManagerConfiguration {
+          "pedro" = let
+            username = "pedro";
+            homeDirectory = "/home/${username}";
+            configDirectory = "${homeDirectory}/.config";
+          in inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
             modules = [ ./home.nix ];
             extraSpecialArgs = {
               inherit (inputs) fenix;
-              username = "pedro";
+              inherit username homeDirectory configDirectory;
+              dotfilesDir = inputs.self;
             };
           };
         };

@@ -1,4 +1,4 @@
-{ pkgs, fenix, config, ... }:
+{ pkgs, fenix, config, homeDirectory, configDirectory, ... }:
 
 {
   home.packages = with pkgs; [
@@ -16,13 +16,13 @@
   ];
 
   xdg.configFile."npm/npmrc".text = ''
-    prefix=${config.home.homeDirectory}/.local
+    prefix=${homeDirectory}/.local
     cache=${config.xdg.cacheHome}/npm
-    init-module=${config.xdg.configHome}/npm/config/npm-init.js
+    init-module=${configDirectory}/npm/config/npm-init.js
   '';
 
   home.sessionVariables = {
-    NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
+    NPM_CONFIG_USERCONFIG = "${configDirectory}/npm/npmrc";
     NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
   };
 }
