@@ -30,6 +30,7 @@ jobs:
       - name: Fix permissions
         run: |
           chown -R pedro:pedro repo
+          chmod +x repo/bootstrap.sh
 
       - name: Run bootstrap.sh
         run: |
