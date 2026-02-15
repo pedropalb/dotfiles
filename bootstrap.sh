@@ -21,7 +21,11 @@ if ! command -v nix &> /dev/null; then
     # - Sets up the Nix Daemon
     # - Configures build users
     # - Works on Systemd (Arch/Ubuntu/Fedora) and Launchd (macOS)
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    NIX_INSTALLER_OPTS="install"
+    if [ -n "$CI" ]; then
+        NIX_INSTALLER_OPTS="install --no-confirm"
+    fi
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- $NIX_INSTALLER_OPTS
     
     # Source the nix configuration immediately for this script session
     if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
@@ -39,9 +43,9 @@ else
 fi
 
 # ---------------------------------------------------------------------------------------------------------------
-CONFIG_REPO="https://github.com/pedropalb/dotfiles.git"
-USERNAME="pedro"  # This MUST match the key you use in your 'flake.nix'
-CONFIG_DIR="$HOME/.config/home-manager"
+CONFIG_REPO="${CONFIG_REPO:-https://github.com/pedropalb/dotfiles.git}"
+USERNAME="${USERNAME:-pedro}"  # This MUST match the key you use in your 'flake.nix'
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/home-manager}"
 
 echo "--- Cloning configuration repo ---"
 if [ -d "$CONFIG_DIR" ]; then

@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-bootstrap:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    steps:
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S --noconfirm git sudo curl base-devel xz
+
+      - name: Create user
+        run: |
+          useradd -m -G wheel -s /bin/bash pedro
+          echo "%wheel ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          path: repo
+
+      - name: Fix permissions
+        run: |
+          chown -R pedro:pedro repo
+
+      - name: Run bootstrap.sh
+        run: |
+          # Run as user 'pedro'
+          # We pass CONFIG_REPO as the absolute path to the checked out repo
+          # We use sudo -u pedro -E to preserve environment variables (like CI)
+
+          sudo -u pedro -E bash -c "cd repo && export CONFIG_REPO=\$(pwd) && ./bootstrap.sh"
