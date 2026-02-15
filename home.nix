@@ -1,4 +1,11 @@
-{ config, pkgs, username, lib, fenix, ... }:
+{
+  config,
+  pkgs,
+  username,
+  lib,
+  fenix,
+  ...
+}:
 
 let
   dotfiles = "${config.home.homeDirectory}/workspace/dotfiles";
@@ -6,10 +13,10 @@ let
   zshConfigDir = "${config.xdg.configHome}/zsh";
 in
 {
-  home.stateVersion = "25.11"; 
+  home.stateVersion = "25.11";
   home.username = username;
   home.homeDirectory = "/home/${username}";
-  
+
   home.packages = with pkgs; [
     paru
 
@@ -35,10 +42,11 @@ in
       "rustfmt"
     ])
   ];
-  
+
   xdg.configFile = {
     "zsh/.p10k.zsh".source = ./.p10k.zsh;
-    "wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${repoConfig}/wezterm/wezterm.lua";
+    "wezterm/wezterm.lua".source =
+      config.lib.file.mkOutOfStoreSymlink "${repoConfig}/wezterm/wezterm.lua";
     "nvim".source = config.lib.file.mkOutOfStoreSymlink "${repoConfig}/nvim";
 
     "npm/npmrc".text = ''
@@ -60,7 +68,7 @@ in
   programs.zsh = {
     enable = true;
     dotDir = zshConfigDir;
-    
+
     autosuggestion.enable = true;
     enableCompletion = true;
     history.append = true;
@@ -74,7 +82,7 @@ in
           source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
         fi
       '')
-      
+
       (lib.mkAfter ''
         [[ ! -f ${zshConfigDir}/.p10k.zsh ]] || source ${zshConfigDir}/.p10k.zsh
       '')
@@ -90,7 +98,7 @@ in
       enable = true;
       plugins = [
         "git"
-	"sudo"
+        "sudo"
       ];
     };
     plugins = [
@@ -120,11 +128,23 @@ in
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
-    flags = ["--disable-up-arrow"];
+    flags = [ "--disable-up-arrow" ];
     settings = {
       auto_sync = false;
       style = "full";
       enter_accept = false;
+    };
+  };
+
+  programs.git = {
+    enable = true;
+    settings = {
+      user = {
+        name = "pedropalb";
+        email = "pedro17lopes@gmail.com";
+      };
+      init.defaultBranch = "main";
+      pull.rebase = true;
     };
   };
 
