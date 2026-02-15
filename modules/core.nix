@@ -1,9 +1,11 @@
-{ pkgs, username, ... }:
+{ pkgs, username, homeDirectory, configDirectory, ... }:
 
 {
   home.stateVersion = "25.11";
   home.username = username;
-  home.homeDirectory = "/home/${username}";
+  home.homeDirectory = homeDirectory;
+
+  xdg.configHome = configDirectory;
 
   home.packages = with pkgs; [
     paru
@@ -16,7 +18,7 @@
   fonts.fontconfig.enable = true;
 
   home.sessionPath = [
-    "/home/${username}/.local/bin"
+    "${homeDirectory}/.local/bin"
   ];
 
   programs.home-manager.enable = true;
