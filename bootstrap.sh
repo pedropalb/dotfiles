@@ -31,6 +31,13 @@ if ! command -v nix &> /dev/null; then
     if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
         . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
     fi
+
+    # In CI, the daemon might not be running (no systemd). Start it manually.
+    if [ -n "$CI" ]; then
+        log "Starting nix-daemon in background for CI..."
+        sudo /nix/var/nix/profiles/default/bin/nix-daemon > /tmp/nix-daemon.log 2>&1 &
+        sleep 5
+    fi
 else
     log "Nix is already installed."
     

@@ -38,4 +38,4 @@ jobs:
           # We pass CONFIG_REPO as the absolute path to the checked out repo
           # We force HOME to be the user's home directory, not the GitHub workspace
 
-          sudo -u pedro CI=true bash -c "cd repo && export CONFIG_REPO=\$(pwd) && export HOME=/home/pedro && ./bootstrap.sh"
+          sudo -u pedro bash -c "export CI=true && cd repo && export CONFIG_REPO=\$(pwd) && export HOME=/home/pedro && ./bootstrap.sh"
