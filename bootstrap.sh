@@ -16,11 +16,15 @@ success() { echo -e "${GREEN}[SUCCESS]${NC} $1" >&2; }
 # 1. Check Dependencies
 check_dependencies() {
     local missing_deps=()
-    for cmd in git curl sudo xz; do
+    for cmd in git curl sudo xz mktemp; do
         if ! command -v "$cmd" &> /dev/null; then
             missing_deps+=("$cmd")
         fi
     done
+
+    if ! command -v sha256sum &> /dev/null && ! command -v shasum &> /dev/null; then
+        missing_deps+=("sha256sum or shasum")
+    fi
 
     if [ ${#missing_deps[@]} -ne 0 ]; then
         error "Missing required dependencies: ${missing_deps[*]}"
@@ -66,7 +70,55 @@ install_nix() {
             NIX_INSTALLER_OPTS="install --no-confirm"
         fi
 
-        curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- $NIX_INSTALLER_OPTS
+        # Secure download and verification
+        local installer_version="v3.15.2"
+        local installer_checksum="a03f0e7209eb171d4826754f3559db453a9ad2645e8de98bb6c1ac6e0ce3398f"
+        local installer_url="https://install.determinate.systems/nix/tag/${installer_version}"
+        local installer_script
+
+        log "Downloading Nix installer from ${installer_url}..."
+        installer_script=$(mktemp)
+        trap 'rm -f "${installer_script}"' EXIT
+
+        if ! curl --proto '=https' --tlsv1.2 -sSf -L "${installer_url}" -o "${installer_script}"; then
+            error "Failed to download Nix installer."
+            exit 1
+        fi
+
+        log "Verifying installer checksum..."
+        local verified=false
+        local actual_checksum
+
+        if command -v sha256sum &> /dev/null; then
+            if echo "${installer_checksum}  ${installer_script}" | sha256sum --check --status; then
+                verified=true
+            else
+                # shellcheck disable=SC2034
+                read -r actual_checksum _ <<< "$(sha256sum "${installer_script}")"
+            fi
+        elif command -v shasum &> /dev/null; then
+            if echo "${installer_checksum}  ${installer_script}" | shasum -a 256 -c -s; then
+                verified=true
+            else
+                # shellcheck disable=SC2034
+                read -r actual_checksum _ <<< "$(shasum -a 256 "${installer_script}")"
+            fi
+        else
+            error "No SHA256 checksum utility found."
+            rm -f "${installer_script}"
+            exit 1
+        fi
+
+        if [ "$verified" = false ]; then
+            error "Installer checksum verification failed!"
+            error "Expected: ${installer_checksum}"
+            error "Actual:   ${actual_checksum}"
+            exit 1
+        fi
+
+        log "Running Nix installer..."
+        chmod +x "${installer_script}"
+        sh "${installer_script}" $NIX_INSTALLER_OPTS
 
         if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
             . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
