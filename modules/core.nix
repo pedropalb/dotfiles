@@ -8,7 +8,6 @@
   xdg.configHome = configDirectory;
 
   home.packages = with pkgs; [
-    paru
     ripgrep
     fd
     bat
