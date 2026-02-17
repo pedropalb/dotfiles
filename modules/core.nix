@@ -10,6 +10,8 @@
     fd
     bat
     nerd-fonts.meslo-lg
+    btop
+    fastfetch
   ];
 
   fonts.fontconfig.enable = true;
