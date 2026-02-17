@@ -56,3 +56,4 @@ This allows editing files in `config/nvim/` and having changes reflected immedia
 - **Symlinking:** Use `mkOutOfStoreSymlink` for configurations that are frequently iterated on (like Neovim or WezTerm) to avoid constant Nix builds.
 - **Rust Development:** Rust is managed via the `fenix` input in the flake, providing a stable toolchain with common components.
 - **Shell:** Zsh is the primary shell. Custom aliases and environment variables should be defined in `home.nix`.
+- **Commit messages:** Commit messages should in conventional commits standard.
