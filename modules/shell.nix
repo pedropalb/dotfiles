@@ -5,7 +5,7 @@ let
 in
 {
   xdg.configFile = {
-    "zsh/.p10k.zsh".source = "${dotfilesDir}/.p10k.zsh";
+    "zsh/.p10k.zsh".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/.p10k.zsh";
   };
 
   programs.zsh = {

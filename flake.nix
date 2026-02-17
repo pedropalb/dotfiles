@@ -27,7 +27,7 @@
               extraSpecialArgs = {
                 inherit (inputs) fenix;
                 inherit username homeDirectory;
-                dotfilesDir = inputs.self;
+                dotfilesDir = "${homeDirectory}/.config/home-manager";
               };
             };
         in {
