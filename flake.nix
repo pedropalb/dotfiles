@@ -18,7 +18,6 @@
           mkHome = { username, isArch ? false }:
             let
               homeDirectory = "/home/${username}";
-              configDirectory = "${homeDirectory}/.config";
             in
             inputs.home-manager.lib.homeManagerConfiguration {
               pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
@@ -27,7 +26,7 @@
               ] ++ (if isArch then [ ./modules/arch.nix ] else []);
               extraSpecialArgs = {
                 inherit (inputs) fenix;
-                inherit username homeDirectory configDirectory;
+                inherit username homeDirectory;
                 dotfilesDir = inputs.self;
               };
             };
@@ -36,5 +35,6 @@
           "pedro-arch" = mkHome { username = "pedro"; isArch = true; };
         };
       };
-    };
+      };
+
 }

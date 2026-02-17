@@ -1,7 +1,7 @@
-{ pkgs, config, lib, dotfilesDir, configDirectory, ... }:
+{ pkgs, config, lib, dotfilesDir, ... }:
 
 let
-  zshConfigDir = "${configDirectory}/zsh";
+  zshConfigDir = "${config.xdg.configHome}/zsh";
 in
 {
   xdg.configFile = {
@@ -10,7 +10,7 @@ in
 
   programs.zsh = {
     enable = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
 
     autosuggestion.enable = true;
     enableCompletion = true;

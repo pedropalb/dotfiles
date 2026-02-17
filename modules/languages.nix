@@ -1,4 +1,4 @@
-{ pkgs, fenix, config, homeDirectory, configDirectory, ... }:
+{ pkgs, fenix, config, ... }:
 
 {
   home.packages = with pkgs; [
@@ -6,7 +6,7 @@
     uv
     nodejs
 
-    (fenix.packages.${pkgs.system}.stable.withComponents [
+    (fenix.packages.${pkgs.stdenv.hostPlatform.system}.stable.withComponents [
       "cargo"
       "rustc"
       "rust-src"
@@ -16,13 +16,13 @@
   ];
 
   xdg.configFile."npm/npmrc".text = ''
-    prefix=${homeDirectory}/.local
+    prefix=${config.home.homeDirectory}/.local
     cache=${config.xdg.cacheHome}/npm
-    init-module=${configDirectory}/npm/config/npm-init.js
+    init-module=${config.xdg.configHome}/npm/config/npm-init.js
   '';
 
   home.sessionVariables = {
-    NPM_CONFIG_USERCONFIG = "${configDirectory}/npm/npmrc";
+    NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
     NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
   };
 }

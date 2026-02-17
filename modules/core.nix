@@ -1,11 +1,9 @@
-{ pkgs, username, homeDirectory, configDirectory, ... }:
+{ pkgs, username, homeDirectory, ... }:
 
 {
   home.stateVersion = "25.11";
   home.username = username;
   home.homeDirectory = homeDirectory;
-
-  xdg.configHome = configDirectory;
 
   home.packages = with pkgs; [
     ripgrep
