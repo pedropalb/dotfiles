@@ -1,6 +1,6 @@
 # Gemini CLI Context: Dotfiles
 
-This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**, and **Home Manager**. It targets a Linux environment (specifically `x86_64-linux`), with a base configuration (`pedro`) and an Arch-specific extension (`pedro-arch`).
+This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**, and **Home Manager**. It targets a Linux environment (specifically `x86_64-linux`), with a base configuration (`default`) and an Arch-specific extension (`arch`).
 
 ## Project Overview
 
@@ -17,7 +17,7 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
 
 ## Key Files and Directories
 
-- `flake.nix`: The entry point for the Nix Flake. Defines inputs (nixpkgs, home-manager, fenix) and the `pedro` and `pedro-arch` home configurations.
+- `flake.nix`: The entry point for the Nix Flake. Defines inputs (nixpkgs, home-manager, fenix) and the `default` and `arch` home configurations.
 - `home.nix`: The core Home Manager configuration aggregator. Imports common modules from `modules/`.
 - `modules/`: Contains the modularized configuration files:
     - `modules/core.nix`: Base system packages (ripgrep, fd, bat, fonts) and home-manager setup.
@@ -45,14 +45,14 @@ To bootstrap a new system, run:
 After modifying `home.nix` or `flake.nix`, apply the changes with:
 ```bash
 # For standard Linux
-home-manager switch --flake .#pedro
+home-manager switch --flake .#default
 
 # For Arch Linux (includes extra packages)
-home-manager switch --flake .#pedro-arch
+home-manager switch --flake .#arch
 ```
 Alternatively, if `home-manager` is not in your path yet:
 ```bash
-nix run github:nix-community/home-manager -- switch --flake .#pedro
+nix run github:nix-community/home-manager -- switch --flake .#default
 ```
 
 ### Neovim Configuration

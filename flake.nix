@@ -31,8 +31,8 @@
               };
             };
         in {
-          "pedro" = mkHome { username = "pedro"; };
-          "pedro-arch" = mkHome { username = "pedro"; isArch = true; };
+          "default" = mkHome { username = "pedro"; };
+          "arch" = mkHome { username = "pedro"; isArch = true; };
         };
       };
       };

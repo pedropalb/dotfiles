@@ -46,10 +46,10 @@ detect_flake_config() {
     # Check for Arch or Arch-derivatives
     if [[ "$os_id" == "arch" || "$os_like" == *"arch"* ]]; then
         log "Detected Arch Linux."
-        flake_config="${user}-arch"
+        flake_config="arch"
     else
         log "Detected Generic Linux (Ubuntu/Debian/Fedora/etc)."
-        flake_config="${user}"
+        flake_config="default"
     fi
     
     echo "$flake_config"
