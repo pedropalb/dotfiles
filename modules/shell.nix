@@ -1,4 +1,10 @@
-{ pkgs, config, lib, dotfilesDir, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  dotfilesDir,
+  ...
+}:
 
 let
   zshConfigDir = "${config.xdg.configHome}/zsh";

@@ -1,4 +1,9 @@
-{ pkgs, fenix, config, ... }:
+{
+  pkgs,
+  fenix,
+  config,
+  ...
+}:
 
 {
   home.packages = with pkgs; [
