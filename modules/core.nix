@@ -12,6 +12,7 @@
     nerd-fonts.meslo-lg
     btop
     fastfetch
+    yazi
   ];
 
   fonts.fontconfig.enable = true;
