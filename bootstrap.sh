@@ -107,11 +107,11 @@ main() {
         else
             warn "Config directory $CONFIG_DIR exists but is not a git repo. Backing up."
             mv "$CONFIG_DIR" "$CONFIG_DIR.bak-$(date +%F-%T)"
-            git clone "$CONFIG_REPO" "$CONFIG_DIR"
+            git clone -- "$CONFIG_REPO" "$CONFIG_DIR"
         fi
     else
         mkdir -p "$(dirname "$CONFIG_DIR")"
-        git clone "$CONFIG_REPO" "$CONFIG_DIR"
+        git clone -- "$CONFIG_REPO" "$CONFIG_DIR"
     fi
 
     echo "--- Applying Home Manager configuration ---"
