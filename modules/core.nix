@@ -19,6 +19,7 @@
     fastfetch
     yazi
     dust
+    lazygit
   ];
 
   fonts.fontconfig.enable = true;
