@@ -18,6 +18,7 @@
     btop
     fastfetch
     yazi
+    dust
   ];
 
   fonts.fontconfig.enable = true;
