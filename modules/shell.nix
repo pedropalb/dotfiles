@@ -47,7 +47,6 @@ in
       enable = true;
       plugins = [
         "git"
-        "sudo"
       ];
     };
     plugins = [
