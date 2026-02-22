@@ -20,6 +20,7 @@
     yazi
     dust
     lazygit
+    eza
   ];
 
   fonts.fontconfig.enable = true;
