@@ -18,6 +18,9 @@
       "clippy"
       "rustfmt"
     ])
+
+    # Nix
+    statix
   ];
 
   xdg.configFile."npm/npmrc".text = ''
