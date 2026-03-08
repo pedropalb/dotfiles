@@ -21,6 +21,7 @@
     dust
     lazygit
     eza
+    unzip
   ];
 
   fonts.fontconfig.enable = true;
