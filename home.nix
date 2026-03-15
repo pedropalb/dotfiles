@@ -8,5 +8,6 @@
     ./modules/editors.nix
     ./modules/git.nix
     ./modules/terminal.nix
+    ./modules/services.nix
   ];
 }
