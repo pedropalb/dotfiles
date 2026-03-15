@@ -79,5 +79,6 @@
   home.sessionVariables = {
     NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
     NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
+    NODE_PATH = "${config.home.homeDirectory}/.local/lib/node_modules";
   };
 }
