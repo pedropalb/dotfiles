@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   username,
   homeDirectory,
   ...
@@ -9,6 +10,13 @@
   home.stateVersion = "25.11";
   home.username = username;
   home.homeDirectory = homeDirectory;
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
+  systemd.user.sessionVariables = config.home.sessionVariables;
 
   home.packages = with pkgs; [
     ripgrep
