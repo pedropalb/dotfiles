@@ -52,8 +52,9 @@ The repository is modularized to make it easy to find and modify specific config
 - `home.nix`: The main aggregator that imports common modules.
 - `modules/`: Contains logical configuration blocks:
     - `core.nix`: Base system packages and Home Manager setup.
+    - `cli.nix`: Command-line tools and utilities.
     - `shell.nix`: Zsh, prompt, and shell utilities.
-    - `languages.nix`: Programming language toolchains.
+    - `dev/`: Programming language toolchains, LSPs, and formatters.
     - `editors.nix`: Neovim setup.
     - `git.nix`: Git configuration.
     - `terminal.nix`: Terminal emulator configuration (WezTerm).
