@@ -1,6 +1,6 @@
 # Dotfiles
 
-This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**, and **Home Manager**. It provides a reproducible, modular, and declarative configuration for a Linux environment, specifically optimized for `x86_64-linux`.
+This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**, and **Home Manager**. It provides a reproducible, modular, and declarative configuration for a Linux environment, specifically optimized for `x86_64-linux`. It also includes a dedicated bash-based script for replicating this environment on Android via **Termux**.
 
 ## Overview
 
@@ -15,12 +15,18 @@ Included configurations:
 
 ## Getting Started
 
-### Initial Setup
-To bootstrap a new system, you can use the provided convenience script:
+### Initial Setup (Linux)
+To bootstrap a new Linux system, you can use the provided convenience script:
 ```bash
 ./bootstrap.sh
 ```
 This script installs Nix (using the Determinate Systems installer) and applies the initial Home Manager configuration.
+
+### Initial Setup (Termux / Android)
+To bootstrap a new Termux environment, run the standalone installation script directly:
+```bash
+curl -fsSL https://raw.githubusercontent.com/pedropalb/dotfiles/main/termux/install.sh | bash
+```
 
 ### Applying Changes
 After modifying the configuration, apply the changes by running:
@@ -62,6 +68,7 @@ The repository is modularized to make it easy to find and modify specific config
 - `config/`: Contains raw configuration files symlinked into your home directory.
     - `config/nvim/`: Full Neovim configuration.
     - `config/wezterm/`: WezTerm configuration.
+- `termux/`: Contains installation, testing, and configuration scripts specifically for reproducing the environment on Termux (Android).
 
 ### Customization
 - To add **packages**, modify the relevant file in `modules/` (e.g., `modules/core.nix` for general tools).

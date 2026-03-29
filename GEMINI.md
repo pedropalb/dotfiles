@@ -1,10 +1,10 @@
 # Gemini CLI Context: Dotfiles
 
-This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**, and **Home Manager**. It targets a Linux environment (specifically `x86_64-linux`), with a base configuration (`default`) and an Arch-specific extension (`arch`).
+This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**, and **Home Manager** for standard Linux environments, alongside a dedicated bash-based setup for **Termux (Android)**. It targets a Linux environment (specifically `x86_64-linux`), with a base configuration (`default`) and an Arch-specific extension (`arch`), as well as a pure `pkg`/bash driven setup for Termux `aarch64`.
 
 ## Project Overview
 
-- **Architecture:** Managed via Nix Flakes for reproducible environment and configuration. Configuration is modularized into `modules/`.
+- **Architecture:** Managed via Nix Flakes for reproducible environment and configuration on standard Linux. Configuration is modularized into `modules/`. For Termux, a bash script (`termux/install.sh`) orchestrates standard `pkg`, `npm`, and `uv` installations to mirror the Nix environment.
 - **Home Manager:** Used to manage user-level packages, dotfiles (via symlinks), and shell environment.
 - **Main Technologies:**
     - **Nix / Flakes:** System and package management.
@@ -27,6 +27,11 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
     - `modules/git.nix`: Git configuration.
     - `modules/terminal.nix`: Terminal emulator configuration (WezTerm).
     - `modules/arch.nix`: Arch Linux specific packages (paru).
+- `termux/`: Contains scripts and configurations for setting up the environment on Android via Termux.
+    - `termux/install.sh`: Main installation script for Termux. Can be run directly via `curl ... | bash`.
+    - `termux/test.sh`: CI test script to verify the Termux installation in a Docker container.
+    - `termux/uninstall.sh`: Script to cleanly remove all packages and symlinks installed by the Termux setup.
+    - `termux/configs/`: Raw configuration files specifically adapted for the Termux environment.
 - `bootstrap.sh`: A convenience script to install Nix (via Determinate Systems installer) and apply the initial Home Manager configuration.
 - `config/`: Contains raw configuration files for applications, symlinked by Home Manager.
     - `config/nvim/`: Full Neovim configuration based on LazyVim.
@@ -35,10 +40,16 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
 
 ## Building and Running
 
-### Initial Setup
+### Initial Setup (Linux)
 To bootstrap a new system, run:
 ```bash
 ./bootstrap.sh
+```
+
+### Initial Setup (Termux / Android)
+To install the environment on a fresh Termux instance, run:
+```bash
+curl -fsSL https://raw.githubusercontent.com/pedropalb/dotfiles/main/termux/install.sh | bash
 ```
 
 ### Applying Changes
