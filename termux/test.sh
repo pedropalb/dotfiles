@@ -28,7 +28,12 @@ assert_no_link() { [ ! -L "$1" ] && pass "no symlink: $1" || fail "symlink still
 # Phase 1: Install
 # ---------------------------------------------------------------------------
 echo "=== Phase 1: install ==="
-bash "$TERMUX_DIR/install.sh"
+export DOTFILES_REPO_URL="file://$DOTFILES_DIR"
+(cd /tmp && cat "$TERMUX_DIR/install.sh" | bash)
+
+# Update variables to point to the cloned repository
+export DOTFILES_DIR="$HOME/.dotfiles"
+TERMUX_DIR="$DOTFILES_DIR/termux"
 
 # ---------------------------------------------------------------------------
 # Phase 2: Verify installation

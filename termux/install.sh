@@ -1,6 +1,34 @@
 #!/bin/bash
 set -euo pipefail
 
+# Bootstrap for curl | bash
+if [ ! -f "$(dirname "$0")/lib.sh" ]; then
+  echo "=> Bootstrapping Termux Dotfiles installation..."
+  
+  if ! command -v git >/dev/null 2>&1; then
+    echo "=> Installing git..."
+    export TERMUX_PKG_NO_MIRROR_SELECT=1
+    export DEBIAN_FRONTEND=noninteractive
+    pkg update -y
+    pkg install -y -o Dpkg::Options::="--force-confnew" git
+  fi
+
+  REPO_URL="${DOTFILES_REPO_URL:-https://github.com/pedropalb/dotfiles.git}"
+  DOTFILES_DIR="$HOME/.dotfiles"
+
+  if [ ! -d "$DOTFILES_DIR" ]; then
+    echo "=> Cloning repository to $DOTFILES_DIR..."
+    git clone "$REPO_URL" "$DOTFILES_DIR"
+  else
+    echo "=> Repository already exists at $DOTFILES_DIR"
+    echo "=> Pulling latest changes..."
+    (cd "$DOTFILES_DIR" && git pull || true)
+  fi
+
+  echo "=> Handing over to local install script..."
+  exec bash "$DOTFILES_DIR/termux/install.sh" "$@"
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
@@ -251,3 +279,4 @@ main() {
 }
 
 main "$@"
+
