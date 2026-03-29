@@ -1,0 +1,39 @@
+name: Test Termux Setup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'termux/**'
+      - '.github/workflows/termux.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'termux/**'
+      - '.github/workflows/termux.yml'
+
+jobs:
+  test:
+    name: Install + verify + uninstall
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run tests in Termux container
+        run: |
+          # We run the tests in a Docker container because the Termux environment
+          # is not compatible with standard glibc-based Node.js used by GitHub Actions.
+          # By running on the host and using 'docker run', we avoid the issues
+          # with 'actions/checkout' failing inside the container.
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE":/data/data/com.termux/files/home/dotfiles \
+            -w /data/data/com.termux/files/home/dotfiles \
+            -e HOME=/data/data/com.termux/files/home \
+            -e PREFIX=/data/data/com.termux/files/usr \
+            -e TMPDIR=/data/data/com.termux/files/usr/tmp \
+            -e PATH=/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets:/usr/bin:/bin \
+            -e LANG=en_US.UTF-8 \
+            -e TZ=UTC \
+            termux/termux-docker:aarch64 \
+            bash termux/test.sh /data/data/com.termux/files/home/dotfiles

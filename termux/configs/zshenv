@@ -1,0 +1,23 @@
+# XDG base directories
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+
+# Point zsh to its config directory (matches Nix dotDir setting)
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# Editors
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# PATH additions
+export PATH="$HOME/.local/bin:$PATH"
+
+# npm / Node
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+export NODE_PATH="$HOME/.local/lib/node_modules"
+
+# Syncthing: disable auto-upgrade
+export STNOUPGRADE="1"
