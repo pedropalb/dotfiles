@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 local light_scheme = "tokyonight-day"
-local dark_scheme = "tokyonight"
+local dark_scheme = "Default"
 
 -- Helper to select a scheme based on appearance string
 local function scheme_for_appearance(appearance)
