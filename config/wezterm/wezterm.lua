@@ -59,4 +59,6 @@ config.keys = {
   },
 }
 
+config.font = wezterm.font("MesloLGS Nerd Font Mono")
+
 return config
