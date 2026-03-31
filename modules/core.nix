@@ -18,6 +18,13 @@
     ];
   };
 
+  xdg = {
+    enable = true;
+    configHome = "${homeDirectory}/.config";
+    cacheHome = "${homeDirectory}/.cache";
+    dataHome = "${homeDirectory}/.local/share";
+  };
+
   manual = {
     manpages.enable = false;
     html.enable = false;

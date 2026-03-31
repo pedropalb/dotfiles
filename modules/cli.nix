@@ -9,7 +9,6 @@
     fastfetch
     yazi
     dust
-    lazygit
     eza
     unzip
   ];
