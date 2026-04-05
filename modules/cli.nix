@@ -11,5 +11,6 @@
     dust
     eza
     unzip
+    tree-sitter
   ];
 }
