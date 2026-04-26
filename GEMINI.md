@@ -13,22 +13,25 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
     - **Neovim:** Configured with LazyVim.
     - **WezTerm:** Terminal emulator.
     - **Rust:** Development environment managed via Fenix.
-    - **Other Tools:** `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `uv`, `nodejs`, `fastfetch`, `btop`.
+    - **Other Tools:** `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `uv`, `nodejs`, `fastfetch`, `btop`, `yazi`, `syncthing`, `eza`.
 
 ## Key Files and Directories
 
 - `flake.nix`: The entry point for the Nix Flake. Defines inputs (nixpkgs, home-manager, fenix) and the `default` and `arch` home configurations.
 - `home.nix`: The core Home Manager configuration aggregator. Imports common modules from `modules/`.
 - `modules/`: Contains the modularized configuration files:
-    - `modules/core.nix`: Base system packages (ripgrep, fd, bat, fonts) and home-manager setup.
+    - `modules/core.nix`: Core Home Manager setup, user info, fonts, and XDG paths.
+    - `modules/cli.nix`: Collection of CLI utilities (`ripgrep`, `fd`, `bat`, `yazi`, `eza`, etc.).
     - `modules/shell.nix`: Zsh configuration, prompt (p10k), and shell utilities (zoxide, fzf, atuin).
-    - `modules/languages.nix`: Programming language toolchains (Rust, Node, Python via uv).
+    - `modules/dev/`: Directory containing language-specific development configurations (Rust, Node, Python, Go, etc.).
     - `modules/editors.nix`: Neovim setup and symlinking.
     - `modules/git.nix`: Git configuration.
     - `modules/terminal.nix`: Terminal emulator configuration (WezTerm).
+    - `modules/services.nix`: User services (e.g., Syncthing).
     - `modules/arch.nix`: Arch Linux specific packages (paru).
 - `termux/`: Contains scripts and configurations for setting up the environment on Android via Termux.
     - `termux/install.sh`: Main installation script for Termux. Can be run directly via `curl ... | bash`.
+    - `termux/lib.sh`: Library of shared functions for Termux scripts.
     - `termux/test.sh`: CI test script to verify the Termux installation in a Docker container.
     - `termux/uninstall.sh`: Script to cleanly remove all packages and symlinks installed by the Termux setup.
     - `termux/configs/`: Raw configuration files specifically adapted for the Termux environment.
