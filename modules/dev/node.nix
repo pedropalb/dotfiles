@@ -4,7 +4,8 @@
   home.packages = with pkgs; [
     nodejs
     vtsls
-    nodePackages.prettier # Shared formatter
+    # nodePackages.prettier # Shared formatter
+    prettier
     vscode-langservers-extracted # Provides jsonls, eslint
   ];
 
