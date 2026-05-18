@@ -12,5 +12,7 @@
     eza
     unzip
     tree-sitter
+    mosh
+    tmux
   ];
 }
