@@ -13,6 +13,7 @@
     unzip
     tree-sitter
     mosh
+    speedtest-cli
   ];
 
   programs.tmux = {
