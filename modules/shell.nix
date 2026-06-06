@@ -42,6 +42,8 @@ in
       ll = "ls -l";
       la = "ls -la";
       l = "ls -lah";
+      y = "yazi";
+      ff = "fastfetch";
     };
 
     oh-my-zsh = {
