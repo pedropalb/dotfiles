@@ -7,6 +7,7 @@
     # nodePackages.prettier # Shared formatter
     prettier
     vscode-langservers-extracted # Provides jsonls, eslint
+    pnpm
   ];
 
   xdg.configFile."npm/npmrc".text = ''
