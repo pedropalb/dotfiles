@@ -14,6 +14,7 @@
     tree-sitter
     mosh
     speedtest-cli
+    zip
   ];
 
   programs.tmux = {
