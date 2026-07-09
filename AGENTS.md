@@ -87,6 +87,33 @@ xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDi
 
 This allows editing files in `config/nvim/` and having changes reflected immediately in Neovim without a `home-manager switch`.
 
+### LazyVim Architecture & Extension
+
+The Neovim config under `config/nvim/` is a standard LazyVim distribution. Files are auto-discovered by lazy.nvim:
+
+- `lua/config/options.lua`: loaded **before** lazy.nvim startup. Use for `vim.opt.*` only.
+- `lua/config/autocmds.lua`: loaded on the `VeryLazy` event. Use `vim.api.nvim_create_autocmd` for custom behavior.
+- `lua/config/keymaps.lua`: custom keymaps.
+- `lua/config/lazy.lua`: lazy.nvim bootstrap and `require("lazy").setup({...})`.
+- `lua/plugins/*.lua`: plugin specs. Every file returning a table is auto-loaded; multiple specs targeting the same plugin are merged.
+
+**Overriding LazyVim defaults:** create a spec in `lua/plugins/` with the same plugin name and an `opts` table. lazy.nvim deep-merges (`lazy/core/util.lua:M.merge`): a scalar value replaces a table at the same key; `vim.NIL` deletes a key. Example — disable diagnostic virtual text globally:
+
+```lua
+-- lua/plugins/lsp.lua
+return {
+  { "neovim/nvim-lspconfig", opts = { diagnostics = { virtual_text = false } } },
+}
+```
+
+LazyVim's lspconfig `config()` calls `vim.diagnostic.config(opts.diagnostics)` with the merged opts, so this is the sanctioned way to change diagnostic display.
+
+**Diagnostics API notes:**
+- `vim.diagnostic.config(opts, namespace)` — the second arg is a **namespace**, not a `bufnr`. There is no buffer-local diagnostic config; per-buffer behavior requires wrapping `vim.diagnostic.handlers.<name>` (a table with `show(namespace, bufnr, diagnostics, opts)` and `hide(namespace, bufnr)` — see `:h diagnostic-handlers-example`).
+- `<leader>ud` (Snacks toggle) enables/disables **all** diagnostics, not virtual text specifically.
+
+**Verifying LazyVim behavior:** installed plugins live at `~/.local/share/nvim/lazy/` (e.g. `LazyVim/lua/lazyvim/plugins/lsp/init.lua`). Grep there to confirm how defaults are applied before overriding.
+
 ## Development Conventions
 
 - **Nix-First:** All system packages and environment tools should be added via the appropriate module in `modules/`.
