@@ -61,4 +61,10 @@ config.keys = {
 
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
 
+-- Start maximized
+wezterm.on("gui-startup", function(cmd)
+  local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
+
 return config
