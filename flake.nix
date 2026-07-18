@@ -21,6 +21,7 @@
               {
                 username,
                 isArch ? false,
+                extraLanguages ? [ ], # subset of [ "haskell" "java" "kotlin" ]
               }:
               let
                 homeDirectory = "/home/${username}";
@@ -29,6 +30,11 @@
                 pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
                 modules = [
                   ./home.nix
+                  {
+                    my.languages = inputs.nixpkgs.lib.genAttrs extraLanguages (_: {
+                      enable = true;
+                    });
+                  }
                 ]
                 ++ (if isArch then [ ./modules/arch.nix ] else [ ]);
                 extraSpecialArgs = {

@@ -57,20 +57,26 @@ The repository is modularized to make it easy to find and modify specific config
 - `flake.nix`: The entry point for the configuration. Defines inputs and system configurations (`default` and `arch`).
 - `home.nix`: The main aggregator that imports common modules.
 - `modules/`: Contains logical configuration blocks:
-    - `core.nix`: Base system packages and Home Manager setup.
-    - `cli.nix`: Command-line tools and utilities.
-    - `shell.nix`: Zsh, prompt, and shell utilities.
-    - `dev/`: Programming language toolchains, LSPs, and formatters.
-    - `editors.nix`: Neovim setup.
-    - `git.nix`: Git configuration.
-    - `terminal.nix`: Terminal emulator configuration (WezTerm).
-    - `arch.nix`: Arch Linux specific packages.
+    - `core.nix`: User identity, stateVersion, XDG paths, sessionPath, manual.
+    - `shell.nix`: Zsh, prompt (p10k), shell utilities (zoxide, fzf, atuin), aliases, and general CLI utilities.
+    - `terminal.nix`: WezTerm symlink, tmux, nerd font, and fontconfig.
+    - `services.nix`: User services (Syncthing, `STNOUPGRADE`, plannotator env).
+    - `dev.nix`: Git, lazygit, Neovim, npm/bun env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Haskell, Java, and Kotlin are opt-in via `extraLanguages`.
+    - `arch.nix`: Arch Linux specific packages (paru).
 - `config/`: Contains raw configuration files symlinked into your home directory.
     - `config/nvim/`: Full Neovim configuration.
     - `config/wezterm/`: WezTerm configuration.
 - `termux/`: Contains installation, testing, and configuration scripts specifically for reproducing the environment on Termux (Android).
 
 ### Customization
-- To add **packages**, modify the relevant file in `modules/` (e.g., `modules/core.nix` for general tools).
+- To add **packages**, modify the relevant file in `modules/`: general CLI tools go in `modules/shell.nix`, development toolchains in `modules/dev.nix`.
 - To change **shell aliases**, edit `modules/shell.nix`.
 - For **Neovim** specific changes, edit the files in `config/nvim/`. These are symlinked as "out-of-store" symlinks, so changes take effect immediately.
+
+### Opt-in Languages
+
+Haskell, Java, and Kotlin tooling are off by default. To enable them per machine, pass `extraLanguages` (a subset of `[ "haskell" "java" "kotlin" ]`) to `mkHome` in `flake.nix`:
+
+```nix
+"default" = mkHome { username = "pedro"; extraLanguages = [ "haskell" ]; };
+```

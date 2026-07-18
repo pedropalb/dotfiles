@@ -20,14 +20,11 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
 - `flake.nix`: The entry point for the Nix Flake. Defines inputs (nixpkgs, home-manager, fenix) and the `default` and `arch` home configurations.
 - `home.nix`: The core Home Manager configuration aggregator. Imports common modules from `modules/`.
 - `modules/`: Contains the modularized configuration files:
-  - `modules/core.nix`: Core Home Manager setup, user info, fonts, and XDG paths.
-  - `modules/cli.nix`: Collection of CLI utilities (`ripgrep`, `fd`, `bat`, `yazi`, `eza`, etc.).
-  - `modules/shell.nix`: Zsh configuration, prompt (p10k), and shell utilities (zoxide, fzf, atuin).
-  - `modules/dev/`: Directory containing language-specific development configurations (Rust, Node, Python, Go, etc.).
-  - `modules/editors.nix`: Neovim setup and symlinking.
-  - `modules/git.nix`: Git configuration.
-  - `modules/terminal.nix`: Terminal emulator configuration (WezTerm).
-  - `modules/services.nix`: User services (e.g., Syncthing).
+  - `modules/core.nix`: Core Home Manager setup, user info, stateVersion, XDG paths, sessionPath, manual.
+  - `modules/shell.nix`: Zsh, prompt (p10k), shell utilities (zoxide, fzf, atuin), aliases, and general CLI utilities (`ripgrep`, `fd`, `bat`, `yazi`, `eza`, etc.).
+  - `modules/terminal.nix`: WezTerm symlink, tmux, nerd font, and fontconfig.
+  - `modules/services.nix`: User services (e.g., Syncthing, `STNOUPGRADE`, plannotator env).
+  - `modules/dev.nix`: Git, lazygit, Neovim, npm/bun env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Declares `my.languages.{haskell,java,kotlin}.enable` opt-in options for Haskell, Java, and Kotlin tooling (off by default; toggled via `extraLanguages` in `flake.nix`).
   - `modules/arch.nix`: Arch Linux specific packages (paru).
 - `termux/`: Contains scripts and configurations for setting up the environment on Android via Termux.
   - `termux/install.sh`: Main installation script for Termux. Can be run directly via `curl ... | bash`.
@@ -77,9 +74,19 @@ Alternatively, if `home-manager` is not in your path yet:
 nix run github:nix-community/home-manager -- switch --flake .#default
 ```
 
+### Opt-in Languages
+
+Haskell, Java, and Kotlin tooling are off by default. To enable them per machine, pass `extraLanguages` (a subset of `[ "haskell" "java" "kotlin" ]`) to `mkHome` in `flake.nix`:
+
+```nix
+"default" = mkHome { username = "pedro"; extraLanguages = [ "haskell" ]; };
+```
+
+A typo'd language name fails loudly at eval time with `The option \`my.languages.<name>' does not exist`.
+
 ### Neovim Configuration
 
-Neovim is symlinked as an "out-of-store" symlink in `modules/editors.nix`:
+Neovim is symlinked as an "out-of-store" symlink in `modules/dev.nix`:
 
 ```nix
 xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/nvim";
@@ -117,7 +124,7 @@ LazyVim's lspconfig `config()` calls `vim.diagnostic.config(opts.diagnostics)` w
 ## Development Conventions
 
 - **Nix-First:** All system packages and environment tools should be added via the appropriate module in `modules/`.
-- **Modular Structure:** Keep configuration split into logical modules. Use `modules/core.nix` for generic tools, and create new modules if necessary.
+- **Modular Structure:** Keep configuration split into logical modules. Use `modules/shell.nix` for general CLI utilities and `modules/dev.nix` for development toolchains, and create new modules if necessary.
 - **Symlinking:** Use `mkOutOfStoreSymlink` for configurations that are frequently iterated on (like Neovim or WezTerm) to avoid constant Nix builds.
 - **Rust Development:** Rust is managed via the `fenix` input in the flake, providing a stable toolchain with common components.
 - **Shell:** Zsh is the primary shell. Custom aliases and environment variables should be defined in `modules/shell.nix`.
