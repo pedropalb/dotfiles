@@ -24,7 +24,7 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
   - `modules/shell.nix`: Zsh, prompt (p10k), shell utilities (zoxide, fzf, atuin), aliases, and general CLI utilities (`ripgrep`, `fd`, `bat`, `yazi`, `eza`, etc.).
   - `modules/terminal.nix`: WezTerm symlink, tmux, nerd font, and fontconfig.
   - `modules/services.nix`: User services (e.g., Syncthing, `STNOUPGRADE`, plannotator env).
-  - `modules/dev.nix`: Git, lazygit, Neovim, npm/bun env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Declares `my.languages.{haskell,java,kotlin}.enable` opt-in options for Haskell, Java, and Kotlin tooling (off by default; toggled via `extraLanguages` in `flake.nix`).
+  - `modules/dev.nix`: Git, lazygit, Neovim, npm env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Declares `my.languages.{haskell,java,kotlin}.enable` opt-in options for Haskell, Java, and Kotlin tooling (off by default; toggled via `extraLanguages` in `flake.nix`).
   - `modules/arch.nix`: Arch Linux specific packages (paru).
 - `termux/`: Contains scripts and configurations for setting up the environment on Android via Termux.
   - `termux/install.sh`: Main installation script for Termux. Can be run directly via `curl ... | bash`.

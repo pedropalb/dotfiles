@@ -45,9 +45,6 @@
         NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
         NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
         NODE_PATH = "${config.home.homeDirectory}/.local/lib/node_modules";
-        BUN_INSTALL_CACHE_DIR = "${config.xdg.cacheHome}/bun";
-        BUN_INSTALL_GLOBAL_DIR = "${config.xdg.dataHome}/bun/global";
-        BUN_INSTALL_BIN = "${config.home.homeDirectory}/.local/bin";
       };
 
       home.packages = with pkgs; [
@@ -66,7 +63,6 @@
         ])
         lldb # Provides lldb-vscode / codelldb for Rust
         # node
-        bun
         nodejs
         vtsls
         prettier

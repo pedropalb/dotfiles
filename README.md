@@ -61,7 +61,7 @@ The repository is modularized to make it easy to find and modify specific config
     - `shell.nix`: Zsh, prompt (p10k), shell utilities (zoxide, fzf, atuin), aliases, and general CLI utilities.
     - `terminal.nix`: WezTerm symlink, tmux, nerd font, and fontconfig.
     - `services.nix`: User services (Syncthing, `STNOUPGRADE`, plannotator env).
-    - `dev.nix`: Git, lazygit, Neovim, npm/bun env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Haskell, Java, and Kotlin are opt-in via `extraLanguages`.
+    - `dev.nix`: Git, lazygit, Neovim, npm env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Haskell, Java, and Kotlin are opt-in via `extraLanguages`.
     - `arch.nix`: Arch Linux specific packages (paru).
 - `config/`: Contains raw configuration files symlinked into your home directory.
     - `config/nvim/`: Full Neovim configuration.
