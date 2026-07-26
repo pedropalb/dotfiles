@@ -13,7 +13,7 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
   - **Neovim:** Configured with LazyVim.
   - **WezTerm:** Terminal emulator.
   - **Rust:** Development environment managed via Fenix.
-  - **Other Tools:** `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `uv`, `nodejs`, `fastfetch`, `btop`, `yazi`, `syncthing`, `eza`.
+  - **Other Tools:** `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `uv`, `nodejs`, `bun`, `fastfetch`, `btop`, `yazi`, `syncthing`, `eza`.
 
 ## Key Files and Directories
 
@@ -24,7 +24,7 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
   - `modules/shell.nix`: Zsh, prompt (p10k), shell utilities (zoxide, fzf, atuin), aliases, and general CLI utilities (`ripgrep`, `fd`, `bat`, `yazi`, `eza`, etc.).
   - `modules/terminal.nix`: WezTerm symlink, tmux, nerd font, and fontconfig.
   - `modules/services.nix`: User services (e.g., Syncthing, `STNOUPGRADE`, plannotator env).
-  - `modules/dev.nix`: Git, lazygit, Neovim, npm env, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Declares `my.languages.{haskell,java,kotlin}.enable` opt-in options for Haskell, Java, and Kotlin tooling (off by default; toggled via `extraLanguages` in `flake.nix`).
+  - `modules/dev.nix`: Git, lazygit, Neovim, npm/bun env, and all language toolchains (Rust, Node, Bun, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Declares `my.languages.{haskell,java,kotlin}.enable` opt-in options for Haskell, Java, and Kotlin tooling (off by default; toggled via `extraLanguages` in `flake.nix`).
   - `modules/arch.nix`: Arch Linux specific packages (paru).
 - `termux/`: Contains scripts and configurations for setting up the environment on Android via Termux.
   - `termux/install.sh`: Main installation script for Termux. Can be run directly via `curl ... | bash`.
@@ -83,6 +83,20 @@ Haskell, Java, and Kotlin tooling are off by default. To enable them per machine
 ```
 
 A typo'd language name fails loudly at eval time with `The option \`my.languages.<name>' does not exist`.
+
+### Bun
+
+nixpkgs trails upstream bun releases, so the binary comes from the `bun-src` flake input (a `type = "tarball"` pin of the GitHub release zip) and is grafted onto the nixpkgs `bun` derivation in `modules/dev.nix`, keeping its `autoPatchelfHook`/openssl/completions packaging.
+
+To bump, edit the version in the `bun-src` URL in `flake.nix` and re-lock:
+
+```bash
+nix flake update bun-src
+```
+
+The version string is parsed out of the locked URL in `flake.nix`, so there is nothing else to keep in sync; an unparseable URL fails at eval time.
+
+Global installs follow the npm layout: `BUN_INSTALL_BIN=~/.local/bin`, `BUN_INSTALL_GLOBAL_DIR=~/.local/lib/bun`, `BUN_INSTALL_CACHE_DIR=$XDG_CACHE_HOME/bun`.
 
 ### Neovim Configuration
 

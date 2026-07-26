@@ -3,9 +3,20 @@
   config,
   lib,
   fenix,
+  bunSrc,
+  bunVersion,
   dotfilesDir,
   ...
 }:
+
+let
+  # nixpkgs trails upstream bun, so the release comes from the `bun-src` flake
+  # input; only the tarball is swapped, the nixpkgs packaging is kept.
+  bun = pkgs.bun.overrideAttrs {
+    version = bunVersion;
+    src = bunSrc;
+  };
+in
 
 {
   options.my.languages = {
@@ -45,6 +56,11 @@
         NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
         NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
         NODE_PATH = "${config.home.homeDirectory}/.local/lib/node_modules";
+
+        # ---- Bun environment (mirrors the npm layout above) ----
+        BUN_INSTALL_BIN = "${config.home.homeDirectory}/.local/bin";
+        BUN_INSTALL_GLOBAL_DIR = "${config.home.homeDirectory}/.local/lib/bun";
+        BUN_INSTALL_CACHE_DIR = "${config.xdg.cacheHome}/bun";
       };
 
       home.packages = with pkgs; [
@@ -68,6 +84,8 @@
         prettier
         vscode-langservers-extracted # Provides jsonls, eslint
         pnpm
+        # bun
+        bun
         # python
         uv
         ty
