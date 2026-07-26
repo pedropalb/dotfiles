@@ -98,6 +98,31 @@ The version string is parsed out of the locked URL in `flake.nix`, so there is n
 
 Global installs follow the npm layout: `BUN_INSTALL_BIN=~/.local/bin`, `BUN_INSTALL_GLOBAL_DIR=~/.local/lib/bun`, `BUN_INSTALL_CACHE_DIR=$XDG_CACHE_HOME/bun`.
 
+### Coding Agents (omp)
+
+`omp` (the [oh-my-pi](https://github.com/can1357/oh-my-pi) coding agent) is not in nixpkgs, so it comes from the `llm-agents` flake input ([numtide/llm-agents.nix](https://github.com/numtide/llm-agents.nix)), exposed to `modules/dev.nix` as `llmAgents` via `extraSpecialArgs`.
+
+The input deliberately has **no** `inputs.nixpkgs.follows`. Upstream only builds and caches against its own pinned `nixpkgs-unstable`; pointing it at ours costs a second nixpkgs evaluation's worth of disk but is what keeps the binary cache usable. With `follows` set, every package would be rebuilt against our nixpkgs instead.
+
+To bump:
+
+```bash
+nix flake update llm-agents
+```
+
+**A fresh machine needs the numtide binary cache configured before this is practical.** Without it, `omp` builds from source — 1086 derivations, including two full Zig toolchains. Because `/nix/store` is shared and `nix-daemon` runs as root, an untrusted user's substituter settings are discarded, so neither the flake's own `nixConfig` nor `--accept-flake-config` has any effect; it must be set system-wide. On non-NixOS with the Determinate installer, append to `/etc/nix/nix.custom.conf` (`/etc/nix/nix.conf` is generated and will be overwritten):
+
+```
+extra-substituters = https://cache.numtide.com
+extra-trusted-public-keys = niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=
+```
+
+Then `sudo systemctl restart nix-daemon` — the daemon only reads its config at startup.
+
+Verify with `nix config show substituters`, not the exit code: an unknown or misspelled setting is only a warning, and the first symptom of a silent failure is a switch that starts compiling. `nix build --dry-run .#homeConfigurations.default.activationPackage` should report a handful of derivations, not a thousand.
+
+Note that omp's closure includes its own `bun` build; that is internal to its store path and does not affect the `bun` on `PATH`.
+
 ### Neovim Configuration
 
 Neovim is symlinked as an "out-of-store" symlink in `modules/dev.nix`:

@@ -3,6 +3,7 @@
   config,
   lib,
   fenix,
+  llmAgents,
   bunSrc,
   bunVersion,
   dotfilesDir,
@@ -67,6 +68,8 @@ in
         # tools
         lazygit
         neovim
+        # coding agents (not in nixpkgs; from the llm-agents.nix flake input)
+        llmAgents.omp
         # rust
         gcc
         (fenix.packages.${pkgs.stdenv.hostPlatform.system}.stable.withComponents [

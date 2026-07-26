@@ -12,6 +12,7 @@ Included configurations:
 - **Terminal**: WezTerm (Configuration only; the app itself is not installed by Home Manager).
 - **Languages**: Rust (via Fenix), Node.js, and Python (via uv).
 - **CLI Tools**: `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `fastfetch`, `btop`, and more.
+- **Coding Agents**: `omp` (via the `llm-agents.nix` flake; see [Coding Agents](#coding-agents)).
 
 ## Getting Started
 
@@ -80,3 +81,24 @@ Haskell, Java, and Kotlin tooling are off by default. To enable them per machine
 ```nix
 "default" = mkHome { username = "pedro"; extraLanguages = [ "haskell" ]; };
 ```
+
+### Coding Agents
+
+`omp` (the [oh-my-pi](https://github.com/can1357/oh-my-pi) coding agent) is not packaged in nixpkgs, so it is installed from the [numtide/llm-agents.nix](https://github.com/numtide/llm-agents.nix) flake input. Bump it with `nix flake update llm-agents`.
+
+**On a new machine, configure the numtide binary cache before your first `home-manager switch`.** Otherwise `omp` is compiled from source — over a thousand derivations, including two Zig toolchains. Nix ignores binary-cache settings coming from a non-root user, so this has to be set system-wide; the flake's own `nixConfig` will not take effect on its own.
+
+With the Determinate Systems installer, append to `/etc/nix/nix.custom.conf` (never `/etc/nix/nix.conf`, which is regenerated):
+
+```
+extra-substituters = https://cache.numtide.com
+extra-trusted-public-keys = niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=
+```
+
+Then restart the daemon, since it only reads its configuration at startup:
+
+```bash
+sudo systemctl restart nix-daemon
+```
+
+Confirm it took effect with `nix config show substituters` — a malformed setting only produces a warning, so the first sign of a mistake would be a switch that starts building instead of downloading.

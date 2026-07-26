@@ -9,6 +9,11 @@
     fenix.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    # `omp` (the oh-my-pi coding agent) is not in nixpkgs.
+    # Deliberately no `inputs.nixpkgs.follows`: llm-agents.nix builds against its
+    # own pinned nixpkgs, and that is what its binary cache is populated for.
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     # Bun releases land in nixpkgs late; track upstream directly.
     # Bump: edit the version in this URL, then `nix flake update bun-src`.
     bun-src = {
@@ -57,6 +62,7 @@
                 ++ (if isArch then [ ./modules/arch.nix ] else [ ]);
                 extraSpecialArgs = {
                   inherit (inputs) fenix;
+                  llmAgents = inputs.llm-agents.packages.x86_64-linux;
                   inherit bunVersion;
                   bunSrc = inputs.bun-src;
                   inherit username homeDirectory;
