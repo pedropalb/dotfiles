@@ -10,13 +10,6 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # Bun releases land in nixpkgs late; track upstream directly.
-    # Bump: edit the version in this URL, then `nix flake update bun-src`.
-    bun-src = {
-      type = "tarball";
-      url = "https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-linux-x64.zip";
-      flake = false;
-    };
   };
 
   outputs =
@@ -26,16 +19,6 @@
       flake = {
         homeConfigurations =
           let
-            # Single source of truth for the bun version: the locked input URL.
-            bunVersion =
-              let
-                lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-                match = builtins.match ".*/bun-v([^/]+)/.*" lock.nodes.bun-src.locked.url;
-              in
-              if match == null then
-                throw "cannot parse bun version from the bun-src input URL in flake.lock"
-              else
-                builtins.head match;
             mkHome =
               {
                 username,
@@ -59,8 +42,6 @@
                 extraSpecialArgs = {
                   inherit (inputs) fenix;
                   llmAgents = inputs.llm-agents;
-                  inherit bunVersion;
-                  bunSrc = inputs.bun-src;
                   inherit username homeDirectory;
                   dotfilesDir = "${homeDirectory}/.config/home-manager";
                 };

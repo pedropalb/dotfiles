@@ -1,18 +1,5 @@
 {
   "nodes": {
-    "bun-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778626117,
-        "narHash": "sha256-i/7tX8lxLhccNF10IHg6XCQldgOID3wGNvg6y6xWM6E=",
-        "type": "tarball",
-        "url": "https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-linux-x64.zip"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://github.com/oven-sh/bun/releases/download/bun-v1.3.14/bun-linux-x64.zip"
-      }
-    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -197,7 +184,6 @@
     },
     "root": {
       "inputs": {
-        "bun-src": "bun-src",
         "fenix": "fenix",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
