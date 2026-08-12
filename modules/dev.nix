@@ -30,6 +30,15 @@
         };
       };
 
+      programs.lazygit = {
+        enable = true;
+        settings.git.diffRenderers = [
+          {
+            command = "delta --dark --paging=never";
+          }
+        ];
+      };
+
       # ---- Editor ----
       # ---- Coding agents ----
       # ---- Node/npm environment ----
@@ -57,7 +66,7 @@
 
       home.packages = with pkgs; [
         # tools
-        lazygit
+        delta
         neovim
         llmAgents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
         llmAgents.packages.${pkgs.stdenv.hostPlatform.system}.omp
