@@ -8,6 +8,7 @@
     fenix.url = "github:nix-community/fenix";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     # Bun releases land in nixpkgs late; track upstream directly.
     # Bump: edit the version in this URL, then `nix flake update bun-src`.
@@ -57,6 +58,7 @@
                 ++ (if isArch then [ ./modules/arch.nix ] else [ ]);
                 extraSpecialArgs = {
                   inherit (inputs) fenix;
+                  llmAgents = inputs.llm-agents;
                   inherit bunVersion;
                   bunSrc = inputs.bun-src;
                   inherit username homeDirectory;

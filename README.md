@@ -12,7 +12,7 @@ Included configurations:
 - **Terminal**: WezTerm (Configuration only; the app itself is not installed by Home Manager).
 - **Languages**: Rust (via Fenix), Node.js, and Python (via uv).
 - **CLI Tools**: `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `fastfetch`, `btop`, and more.
-- **Coding Agents**: `omp` (via the `llm-agents.nix` flake; see [Coding Agents](#coding-agents)).
+- **Coding Agents**: `herdr` and `omp` (via the `llm-agents.nix` flake; see [Coding Agents](#coding-agents)).
 
 ## Getting Started
 
@@ -84,11 +84,18 @@ Haskell, Java, and Kotlin tooling are off by default. To enable them per machine
 
 ### Coding Agents
 
-`omp` (the [oh-my-pi](https://github.com/can1357/oh-my-pi) coding agent) is not packaged in nixpkgs, so it is installed from the [numtide/llm-agents.nix](https://github.com/numtide/llm-agents.nix) flake input. Bump it with `nix flake update llm-agents`.
+`herdr` and `omp` are installed from the [numtide/llm-agents.nix](https://github.com/numtide/llm-agents.nix) flake input through Home Manager. `omp` is the [oh-my-pi](https://github.com/can1357/oh-my-pi) coding agent. Bump both with `nix flake update llm-agents`.
 
-**On a new machine, configure the numtide binary cache before your first `home-manager switch`.** Otherwise `omp` is compiled from source — over a thousand derivations, including two Zig toolchains. Nix ignores binary-cache settings coming from a non-root user, so this has to be set system-wide; the flake's own `nixConfig` will not take effect on its own.
+The numtide binary cache is configured system-wide on this machine in
+`/etc/nix/nix.custom.conf`, so `herdr` and `omp` can be downloaded from the
+cache instead of being built locally. On a new machine, configure it before
+your first `home-manager switch`; otherwise `omp` is compiled from source —
+over a thousand derivations, including two Zig toolchains. Nix ignores
+binary-cache settings from a non-root user, and the flake's own `nixConfig`
+does not take effect on its own.
 
-With the Determinate Systems installer, append to `/etc/nix/nix.custom.conf` (never `/etc/nix/nix.conf`, which is regenerated):
+With the Determinate Systems installer, append these settings to
+`/etc/nix/nix.custom.conf` (never `/etc/nix/nix.conf`, which is regenerated):
 
 ```
 extra-substituters = https://cache.numtide.com
