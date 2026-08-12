@@ -53,7 +53,6 @@
         NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
         NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
         NODE_PATH = "${config.home.homeDirectory}/.local/lib/node_modules";
-
       };
 
       home.packages = with pkgs; [
@@ -86,7 +85,7 @@
         python3Packages.debugpy # For Python DAP
         # nix
         statix
-        nil
+        nixd
         nixfmt
         # lua
         lua-language-server
