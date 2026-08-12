@@ -8,7 +8,6 @@
   ...
 }:
 
-
 {
   options.my.languages = {
     haskell.enable = lib.mkEnableOption "Haskell development tooling";
@@ -32,18 +31,21 @@
       };
 
       # ---- Editor ----
-      xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/nvim";
-
       # ---- Coding agents ----
-      xdg.configFile."herdr/config.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/herdr/config.toml";
-      home.file.".omp/agent/config.yml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/omp/config.yml";
+      # ---- Node/npm environment ----
+      xdg.configFile = {
+        "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/nvim";
+        "herdr/config.toml".source =
+          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/herdr/config.toml";
+        "npm/npmrc".text = ''
+          prefix=${config.home.homeDirectory}/.local
+          cache=${config.xdg.cacheHome}/npm
+          init-module=${config.xdg.configHome}/npm/config/npm-init.js
+        '';
+      };
 
-      # ---- Node/npm environment (from dev/node.nix) ----
-      xdg.configFile."npm/npmrc".text = ''
-        prefix=${config.home.homeDirectory}/.local
-        cache=${config.xdg.cacheHome}/npm
-        init-module=${config.xdg.configHome}/npm/config/npm-init.js
-      '';
+      home.file.".omp/agent/config.yml".source =
+        config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/omp/config.yml";
 
       home.sessionVariables = {
         EDITOR = "nvim";

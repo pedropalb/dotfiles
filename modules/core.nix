@@ -9,16 +9,14 @@
   home = {
     inherit username homeDirectory;
     stateVersion = "25.11";
-    sessionPath = [
-      "${homeDirectory}/.local/bin"
-    ];
   };
 
+  # xdg.enable exports the XDG_* variables (and their systemd user session
+  # counterparts); the directories themselves default to the standard paths.
   xdg = {
     enable = true;
-    configHome = "${homeDirectory}/.config";
-    cacheHome = "${homeDirectory}/.cache";
-    dataHome = "${homeDirectory}/.local/share";
+    # Adds ~/.local/bin to home.sessionPath.
+    localBinInPath = true;
   };
 
   manual = {

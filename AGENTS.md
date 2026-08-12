@@ -13,11 +13,11 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
   - **Neovim:** Configured with LazyVim.
   - **WezTerm:** Terminal emulator.
   - **Rust:** Development environment managed via Fenix.
-  - **Other Tools:** `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `uv`, `nodejs`, `bun`, `fastfetch`, `btop`, `yazi`, `syncthing`, `eza`.
+  - **Other Tools:** `ripgrep`, `fd`, `fzf`, `atuin`, `bat`, `zoxide`, `uv`, `nodejs`, `fastfetch`, `btop`, `yazi`, `syncthing`, `eza`.
 
 ## Key Files and Directories
 
-- `flake.nix`: The entry point for the Nix Flake. Defines inputs (nixpkgs, home-manager, fenix) and the `default` and `arch` home configurations.
+- `flake.nix`: The entry point for the Nix Flake. Defines inputs (nixpkgs, home-manager, fenix, llm-agents) and the `default` and `arch` home configurations via plain flake outputs (no flake-parts).
 - `home.nix`: The core Home Manager configuration aggregator. Imports common modules from `modules/`.
 - `modules/`: Contains the modularized configuration files:
   - `modules/core.nix`: Core Home Manager setup, user info, stateVersion, XDG paths, sessionPath, manual.
@@ -96,6 +96,10 @@ nix flake update llm-agents
 
 Runtime configuration and sessions remain under `~/.omp/agent`, independently
 of the installed executables.
+
+`llm-agents`' `nixpkgs` input is deliberately NOT wired to this flake's
+`nixpkgs` via `follows`: doing so would change the `omp`/`herdr` derivations
+and void the numtide binary cache hits, forcing local builds.
 
 The numtide binary cache is configured system-wide on this machine in
 `/etc/nix/nix.custom.conf`. This avoids building `omp` locally and should be

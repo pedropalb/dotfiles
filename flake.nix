@@ -7,54 +7,49 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     fenix.url = "github:nix-community/fenix";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
-    flake-parts.url = "github:hercules-ci/flake-parts";
     llm-agents.url = "github:numtide/llm-agents.nix";
-
+    # NOTE: llm-agents' nixpkgs is deliberately NOT followed to this flake's
+    # nixpkgs so that numtide's binary cache keeps providing omp/herdr builds.
   };
 
   outputs =
-    inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" ];
-      flake = {
-        homeConfigurations =
-          let
-            mkHome =
-              {
-                username,
-                isArch ? false,
-                extraLanguages ? [ ], # subset of [ "haskell" "java" "kotlin" ]
-              }:
-              let
-                homeDirectory = "/home/${username}";
-              in
-              inputs.home-manager.lib.homeManagerConfiguration {
-                pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-                modules = [
-                  ./home.nix
-                  {
-                    my.languages = inputs.nixpkgs.lib.genAttrs extraLanguages (_: {
-                      enable = true;
-                    });
-                  }
-                ]
-                ++ (if isArch then [ ./modules/arch.nix ] else [ ]);
-                extraSpecialArgs = {
-                  inherit (inputs) fenix;
-                  llmAgents = inputs.llm-agents;
-                  inherit username homeDirectory;
-                  dotfilesDir = "${homeDirectory}/.config/home-manager";
-                };
-              };
-          in
-          {
-            "default" = mkHome { username = "pedro"; };
-            "arch" = mkHome {
-              username = "pedro";
-              isArch = true;
-            };
+    inputs:
+    let
+      mkHome =
+        {
+          username,
+          isArch ? false,
+          extraLanguages ? [ ], # subset of [ "haskell" "java" "kotlin" ]
+        }:
+        let
+          homeDirectory = "/home/${username}";
+        in
+        inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+          modules = [
+            ./home.nix
+            {
+              my.languages = inputs.nixpkgs.lib.genAttrs extraLanguages (_: {
+                enable = true;
+              });
+            }
+          ]
+          ++ (if isArch then [ ./modules/arch.nix ] else [ ]);
+          extraSpecialArgs = {
+            inherit (inputs) fenix;
+            llmAgents = inputs.llm-agents;
+            inherit username homeDirectory;
+            dotfilesDir = "${homeDirectory}/.config/home-manager";
           };
+        };
+    in
+    {
+      homeConfigurations = {
+        "default" = mkHome { username = "pedro"; };
+        "arch" = mkHome {
+          username = "pedro";
+          isArch = true;
+        };
       };
     };
-
 }
