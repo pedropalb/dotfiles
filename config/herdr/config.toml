@@ -8,3 +8,6 @@ name = "catppuccin"
 
 [ui.sound]
 enabled = false
+
+[experimental]
+kitty_graphics = true

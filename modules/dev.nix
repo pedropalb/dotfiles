@@ -62,6 +62,8 @@
         NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
         NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
         NODE_PATH = "${config.home.homeDirectory}/.local/lib/node_modules";
+        PI_FORCE_IMAGE_PROTOCOL = "kitty";
+        PI_KITTY_PLACEHOLDERS = "1";
       };
 
       home.packages = with pkgs; [

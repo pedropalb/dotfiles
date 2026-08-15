@@ -21,3 +21,7 @@ export NODE_PATH="$HOME/.local/lib/node_modules"
 
 # Syncthing: disable auto-upgrade
 export STNOUPGRADE="1"
+
+# Coding agent image rendering
+export PI_FORCE_IMAGE_PROTOCOL="kitty"
+export PI_KITTY_PLACEHOLDERS="1"

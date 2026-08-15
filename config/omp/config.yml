@@ -74,7 +74,8 @@ task:
   showResolvedModelBadge: true
 tui: 
   tight: true
-textVerbosity: low
+  textSizing: true
+textVerbosity: medium
 personality: pragmatic
 mnemopi: 
   scoping: global
@@ -92,3 +93,5 @@ dev:
 disabledExtensions: 
   - skill:task-breakdown
 defaultThinkingLevel: auto
+ttsr: 
+  contextMode: discard
