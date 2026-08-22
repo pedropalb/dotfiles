@@ -2,7 +2,7 @@ symbolPreset: nerd
 theme: 
   dark: anthracite
   light: light
-setupVersion: 1
+setupVersion: 2
 modelRoles: 
   default: google-antigravity/gemini-3.7-flash:high
   slow: opencode-go/kimi-k3:max
@@ -95,3 +95,5 @@ disabledExtensions:
 defaultThinkingLevel: auto
 ttsr: 
   contextMode: discard
+composer: 
+  shape: claude
