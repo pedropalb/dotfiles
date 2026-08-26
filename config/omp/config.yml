@@ -78,7 +78,7 @@ tui:
 textVerbosity: medium
 personality: pragmatic
 mnemopi: 
-  scoping: global
+  scoping: per-project-tagged
   polyphonicRecall: true
   proactiveLinking: true
   enhancedRecall: true
