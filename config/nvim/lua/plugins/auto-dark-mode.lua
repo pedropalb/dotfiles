@@ -1,7 +1,7 @@
--- OneDark Dark is dark-only, so keep the background dark in every system mode.
+-- Keep Tokyo Night's dark Night variant across system modes.
 local function apply_colorscheme()
   vim.api.nvim_set_option_value("background", "dark", {})
-  vim.cmd.colorscheme("onedark_dark")
+  vim.cmd.colorscheme("tokyonight-night")
 end
 
 return {
