@@ -1,7 +1,7 @@
--- OneDark Vivid is dark-only, so keep the background dark in every system mode.
+-- OneDark Dark is dark-only, so keep the background dark in every system mode.
 local function apply_colorscheme()
   vim.api.nvim_set_option_value("background", "dark", {})
-  vim.cmd.colorscheme("onedark_vivid")
+  vim.cmd.colorscheme("onedark_dark")
 end
 
 return {
