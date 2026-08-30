@@ -119,11 +119,11 @@ function M.set(enable)
 end
 
 function M.toggle()
-  if Snacks and Snacks.toggle and Snacks.toggle.get("custom_tokyo_night") then
-    Snacks.toggle.get("custom_tokyo_night"):toggle()
+  M.set(not M.custom_palette)
+  local label = M.custom_palette and "Custom Charcoal" or "Original Stock"
+  if Snacks and Snacks.notify then
+    Snacks.notify.info("Tokyo Night: " .. label, { title = "Theme Toggle" })
   else
-    M.set(not M.custom_palette)
-    local label = M.custom_palette and "Custom Charcoal" or "Original Stock"
     vim.notify("Tokyo Night: " .. label, vim.log.levels.INFO, { title = "Theme Toggle" })
   end
 end
@@ -133,7 +133,7 @@ function M.setup()
     M.toggle()
   end, { desc = "Toggle between custom charcoal Tokyo Night and stock Tokyo Night" })
 
-  vim.keymap.set("n", "<leader>ut", function()
+  vim.keymap.set("n", "<leader>uv", function()
     M.toggle()
   end, { desc = "Toggle Custom Tokyo Night" })
 
@@ -148,7 +148,7 @@ function M.setup()
         set = function(state)
           M.set(state)
         end,
-      }):map("<leader>ut")
+      }):map("<leader>uv")
     end
   end
 
