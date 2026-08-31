@@ -56,6 +56,7 @@ terminal:
 display:
   showTokenUsage: true
   cacheMissMarker: true
+  showTurnTime: true
 steeringMode: one-at-a-time
 interruptMode: immediate
 treeFilterMode: default
