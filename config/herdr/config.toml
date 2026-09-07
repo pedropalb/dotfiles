@@ -5,8 +5,9 @@ onboarding = false
 agent_panel_sort = "priority"
 show_agent_labels_on_pane_borders = true
 [theme]
-name = "catppuccin"
+name = "tokyo-night"
 
+auto_switch = false
 [ui.sound]
 enabled = false
 
