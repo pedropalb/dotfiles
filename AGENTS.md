@@ -22,7 +22,7 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
 - `modules/`: Contains the modularized configuration files:
   - `modules/core.nix`: Core Home Manager setup, user info, stateVersion, XDG paths, sessionPath, manual.
   - `modules/shell.nix`: Zsh, prompt (p10k), shell utilities (zoxide, fzf, atuin), aliases, and general CLI utilities (`ripgrep`, `fd`, `bat`, `yazi`, `eza`, etc.).
-  - `modules/terminal.nix`: WezTerm symlink, tmux, nerd font, and fontconfig.
+  - `modules/terminal.nix`: WezTerm and Ghostty symlinks, tmux, nerd font, and fontconfig.
   - `modules/services.nix`: User services (e.g., Syncthing, `STNOUPGRADE`, plannotator env).
   - `modules/dev.nix`: Git, lazygit, Neovim, npm environment, and all language toolchains (Rust, Node, Python, Nix, Lua, shell, Docker, markup, TeX, TOML). Declares `my.languages.{haskell,java,kotlin}.enable` opt-in options for Haskell, Java, and Kotlin tooling (off by default; toggled via `extraLanguages` in `flake.nix`).
   - `modules/arch.nix`: Arch Linux specific packages (paru).
@@ -36,6 +36,7 @@ This repository contains personal dotfiles managed with **Nix**, **Nix Flakes**,
 - `config/`: Contains raw configuration files for applications, symlinked by Home Manager.
   - `config/nvim/`: Full Neovim configuration based on LazyVim.
   - `config/wezterm/wezterm.lua`: WezTerm configuration using Github Dark scheme and MesloLGL Nerd Font.
+  - `config/ghostty/config.ghostty`: Ghostty terminal configuration.
 - `.p10k.zsh`: Configuration for the Powerlevel10k Zsh theme.
 
 ## Building and Running
