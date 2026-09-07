@@ -1,7 +1,6 @@
 -- Keep active Tokyo Night variant across system modes.
 local function apply_colorscheme()
   vim.api.nvim_set_option_value("background", "dark", {})
-  require("config.theme").apply()
 end
 
 return {
