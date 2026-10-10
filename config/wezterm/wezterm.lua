@@ -59,7 +59,9 @@ config.keys = {
   },
 }
 
-config.font = wezterm.font("MesloLGS Nerd Font Mono")
+-- config.font = wezterm.font("JetBrains Mono")
+config.font = wezterm.font("MesloLGS Nerd Font")
+-- config.font_size = 10
 
 -- Start maximized
 wezterm.on("gui-startup", function(cmd)
