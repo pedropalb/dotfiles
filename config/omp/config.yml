@@ -10,8 +10,6 @@ modelRoles:
   tiny: opencode-go/deepseek-v4.1-flash:high
   advisor: opencode-go/kimi-k3:max
   commit: opencode-go/deepseek-v4.1-flash:high
-providers:
-  webSearchGeminiModel: ""
 skills:
   ignoredSkills:
     - brainstorming
@@ -29,7 +27,7 @@ skills:
     - using-superpowers
     - verification-before-completion
 compaction:
-  thresholdTokens: 300000
+  thresholdTokens: 200000
   thresholdPercent: -1
 disabledProviders:
   - claude-plugins
