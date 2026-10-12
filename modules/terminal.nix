@@ -19,7 +19,11 @@
     '';
   };
 
-  home.packages = [ pkgs.nerd-fonts.meslo-lg ];
+  home.packages = [
+    pkgs.nerd-fonts.meslo-lg
+    pkgs.nerd-fonts.atkynson-mono
+    pkgs.nerd-fonts.jetbrains-mono
+  ];
 
   fonts.fontconfig.enable = true;
 }
