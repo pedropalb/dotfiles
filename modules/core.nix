@@ -9,6 +9,7 @@
   home = {
     inherit username homeDirectory;
     stateVersion = "25.11";
+    preferXdgDirectories = true;
   };
 
   # xdg.enable exports the XDG_* variables (and their systemd user session

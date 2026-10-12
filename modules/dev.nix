@@ -39,18 +39,36 @@
         ];
       };
 
+      # ---- Bun (JS runtime, tracks nixpkgs) ----
+      programs.bun = {
+        enable = true;
+        settings = {
+          install = {
+            globalDir = "${config.xdg.dataHome}/bun/install/global";
+            globalBinDir = "${config.home.homeDirectory}/.local/bin";
+            cache = {
+              dir = "${config.xdg.cacheHome}/bun/install/cache";
+            };
+          };
+        };
+      };
+
+      # ---- Node/npm environment ----
+      programs.npm = {
+        enable = true;
+        settings = {
+          prefix = "${config.home.homeDirectory}/.local";
+          cache = "${config.xdg.cacheHome}/npm";
+          init-module = "${config.xdg.configHome}/npm/config/npm-init.js";
+        };
+      };
+
       # ---- Editor ----
       # ---- Coding agents ----
-      # ---- Node/npm environment ----
       xdg.configFile = {
         "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/nvim";
         "herdr/config.toml".source =
           config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/herdr/config.toml";
-        "npm/npmrc".text = ''
-          prefix=${config.home.homeDirectory}/.local
-          cache=${config.xdg.cacheHome}/npm
-          init-module=${config.xdg.configHome}/npm/config/npm-init.js
-        '';
       };
 
       home.file.".omp/agent/config.yml".source =
@@ -59,9 +77,9 @@
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
-        NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
         NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
         NODE_PATH = "${config.home.homeDirectory}/.local/lib/node_modules";
+        BUN_INSTALL = "${config.xdg.dataHome}/bun";
         PI_FORCE_IMAGE_PROTOCOL = "kitty";
         PI_KITTY_PLACEHOLDERS = "1";
       };
@@ -71,7 +89,7 @@
         delta
         neovim
         llmAgents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
-        llmAgents.packages.${pkgs.stdenv.hostPlatform.system}.omp
+        # llmAgents.packages.${pkgs.stdenv.hostPlatform.system}.omp
         # rust
         gcc
         (fenix.packages.${pkgs.stdenv.hostPlatform.system}.stable.withComponents [
@@ -84,7 +102,6 @@
         ])
         lldb # Provides lldb-vscode / codelldb for Rust
         # node
-        nodejs
         vtsls
         prettier
         vscode-langservers-extracted # Provides jsonls, eslint
