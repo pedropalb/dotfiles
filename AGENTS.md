@@ -115,9 +115,15 @@ sudoedit /etc/nix/nix.custom.conf
 ```
 
 ```ini
-extra-substituters = https://cache.numtide.com
+extra-substituters = https://cache.numtide.com?priority=50
 extra-trusted-public-keys = niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=
 ```
+
+`?priority=50` ranks numtide below `cache.nixos.org` (priority 40); Nix
+tries lower numbers first. Numtide advertises priority 30 by default, so
+without the override it would also serve large nixpkgs paths (e.g. JDKs)
+that it mirrors, and it downloads them much more slowly than nixos.org.
+Numtide still serves what nixos.org lacks, such as `omp`/`herdr`.
 
 Restart the daemon and verify the cache is active:
 
