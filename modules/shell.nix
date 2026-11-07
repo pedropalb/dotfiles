@@ -23,6 +23,17 @@ in
     history.append = true;
     syntaxHighlighting.enable = true;
 
+    # Some terminals (Tern 0.9.x) spawn shells with a trimmed environment that
+    # drops XAUTHORITY, so X11/Xwayland clients (AWT, Compose Desktop) fail with
+    # "Authorization required". KWin randomizes the cookie path per login, so
+    # restore it from the systemd user session instead of hardcoding it.
+    envExtra = ''
+      if [[ -n $DISPLAY && -z $XAUTHORITY ]]; then
+        export XAUTHORITY="$(systemctl --user show-environment 2>/dev/null | sed -n 's/^XAUTHORITY=//p')"
+        [[ -n $XAUTHORITY ]] || unset XAUTHORITY
+      fi
+    '';
+
     initContent = lib.mkMerge [
       (lib.mkBefore ''
         # Powerlevel10k instant prompt
