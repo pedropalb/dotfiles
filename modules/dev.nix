@@ -140,9 +140,57 @@
       home.packages = [ pkgs.haskell-language-server ];
     })
 
-    (lib.mkIf config.my.languages.java.enable {
-      home.packages = [ pkgs.jdt-language-server ];
-    })
+    (lib.mkIf config.my.languages.java.enable (
+      let
+        sdkmanDir = "${config.home.homeDirectory}/.sdkman";
+        javaHome = "${sdkmanDir}/candidates/java/current";
+      in
+      {
+        home.packages = [ pkgs.jdt-language-server ];
+
+        # SDKMAN is not in nixpkgs: run the upstream installer once and let it
+        # self-manage ~/.sdkman. rcupdate=false stops it from editing the
+        # Home Manager-owned .zshrc. The installer bails if the dir exists, so
+        # a broken install needs `rm -rf ~/.sdkman` before re-switching.
+        home.activation.installSdkman = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          if [[ ! -d "${sdkmanDir}" ]]; then
+            run env \
+              PATH="${
+                lib.makeBinPath (
+                  with pkgs;
+                  [
+                    bash
+                    curl
+                    coreutils
+                    findutils
+                    gnugrep
+                    gnused
+                    gnutar
+                    gzip
+                    unzip
+                    zip
+                    which
+                  ]
+                )
+              }" \
+              SDKMAN_DIR="${sdkmanDir}" \
+              bash -c 'curl -fsSL "https://get.sdkman.io?rcupdate=false" | bash' \
+              || warnEcho "SDKMAN install failed; remove ${sdkmanDir} and re-run home-manager switch"
+          fi
+        '';
+
+        # Default JDK (`sdk default java ...`) for non-interactive tools
+        # (Gradle wrapper, IDEs); interactive zsh also gets the `sdk` function.
+        home.sessionVariables = {
+          SDKMAN_DIR = sdkmanDir;
+          JAVA_HOME = javaHome;
+        };
+        home.sessionPath = [ "${javaHome}/bin" ];
+        programs.zsh.initContent = lib.mkAfter ''
+          [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+        '';
+      }
+    ))
 
     (lib.mkIf config.my.languages.kotlin.enable {
       home.packages = with pkgs; [

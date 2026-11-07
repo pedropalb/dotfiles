@@ -49,6 +49,7 @@
         "arch" = mkHome {
           username = "pedro";
           isArch = true;
+          extraLanguages = [ "java" ];
         };
       };
     };
